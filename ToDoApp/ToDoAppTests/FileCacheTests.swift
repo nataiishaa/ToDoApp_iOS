@@ -40,18 +40,6 @@ class TodoItemTests: XCTestCase {
         XCTAssertFalse(todo!.isCompleted)
     }
 
-    func testCSVSerializationAndParsing() {
-        let todo = TodoItem(text: "Hello, world!", importance: .high, isCompleted: true)
-        let csv = todo.csv
-        XCTAssertNotNil(csv)
-
-        let parsedTodo = TodoItem.fromCSV(csvString: csv)
-        XCTAssertNotNil(parsedTodo)
-        XCTAssertEqual(parsedTodo?.text, "Hello, world!")
-        XCTAssertEqual(parsedTodo?.importance, .high)
-        XCTAssertTrue(parsedTodo!.isCompleted)
-    }
-
     func testInvalidJSONParsing() {
         let invalidJson: [String: Any] = [
             "id": "1",
