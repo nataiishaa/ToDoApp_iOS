@@ -41,13 +41,13 @@ class TodoItemTests: XCTestCase {
     }
 
     func testCSVSerializationAndParsing() {
-        let todo = TodoItem(text: "Test CSV", importance: .high, isCompleted: true)
+        let todo = TodoItem(text: "Hello, world!", importance: .high, isCompleted: true)
         let csv = todo.csv
         XCTAssertNotNil(csv)
-        
+
         let parsedTodo = TodoItem.fromCSV(csvString: csv)
         XCTAssertNotNil(parsedTodo)
-        XCTAssertEqual(parsedTodo?.text, "Test CSV")
+        XCTAssertEqual(parsedTodo?.text, "Hello, world!")
         XCTAssertEqual(parsedTodo?.importance, .high)
         XCTAssertTrue(parsedTodo!.isCompleted)
     }
