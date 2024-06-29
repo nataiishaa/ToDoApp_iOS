@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A21974AA2C2F63440041D9DF /* TodoItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21974A92C2F63440041D9DF /* TodoItemList.swift */; };
+		A21974AC2C2F63660041D9DF /* ToDoItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21974AB2C2F63660041D9DF /* ToDoItemCell.swift */; };
+		A21974AE2C2F63850041D9DF /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21974AD2C2F63850041D9DF /* PlusButton.swift */; };
+		A21974B22C2F63F10041D9DF /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21974B12C2F63F10041D9DF /* Circle.swift */; };
+		A21974B42C2F646B0041D9DF /* ToDoListCoordinator..swift in Sources */ = {isa = PBXBuildFile; fileRef = A21974B32C2F646B0041D9DF /* ToDoListCoordinator..swift */; };
+		A21974B62C2F64E20041D9DF /* ToDoItemElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21974B52C2F64E20041D9DF /* ToDoItemElements.swift */; };
+		A21974B82C2F65040041D9DF /* CustomColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21974B72C2F65040041D9DF /* CustomColorPickerView.swift */; };
+		A21974BA2C2F652F0041D9DF /* ToDoItemDetailViewEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21974B92C2F652F0041D9DF /* ToDoItemDetailViewEx.swift */; };
+		A21974BC2C2F65500041D9DF /* DateConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21974BB2C2F65500041D9DF /* DateConverter.swift */; };
+		A21974BE2C2F66120041D9DF /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21974BD2C2F66120041D9DF /* Color.swift */; };
 		A2376B1F2C244EDB0039C546 /* ToDoAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2376B1E2C244EDB0039C546 /* ToDoAppApp.swift */; };
 		A2376B212C244EDB0039C546 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2376B202C244EDB0039C546 /* ContentView.swift */; };
 		A2376B232C244EDE0039C546 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2376B222C244EDE0039C546 /* Assets.xcassets */; };
@@ -39,6 +49,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A21974A92C2F63440041D9DF /* TodoItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemList.swift; sourceTree = "<group>"; };
+		A21974AB2C2F63660041D9DF /* ToDoItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemCell.swift; sourceTree = "<group>"; };
+		A21974AD2C2F63850041D9DF /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
+		A21974B12C2F63F10041D9DF /* Circle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = "<group>"; };
+		A21974B32C2F646B0041D9DF /* ToDoListCoordinator..swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListCoordinator..swift; sourceTree = "<group>"; };
+		A21974B52C2F64E20041D9DF /* ToDoItemElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemElements.swift; sourceTree = "<group>"; };
+		A21974B72C2F65040041D9DF /* CustomColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColorPickerView.swift; sourceTree = "<group>"; };
+		A21974B92C2F652F0041D9DF /* ToDoItemDetailViewEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemDetailViewEx.swift; sourceTree = "<group>"; };
+		A21974BB2C2F65500041D9DF /* DateConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConverter.swift; sourceTree = "<group>"; };
+		A21974BD2C2F66120041D9DF /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		A2376B1B2C244EDB0039C546 /* ToDoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2376B1E2C244EDB0039C546 /* ToDoAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoAppApp.swift; sourceTree = "<group>"; };
 		A2376B202C244EDB0039C546 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -81,9 +101,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A2233EC82C2F7687005AB643 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A21974B12C2F63F10041D9DF /* Circle.swift */,
+				A21974AD2C2F63850041D9DF /* PlusButton.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		A2376B122C244EDB0039C546 = {
 			isa = PBXGroup;
 			children = (
+				A2233EC82C2F7687005AB643 /* View */,
+				A21974BD2C2F66120041D9DF /* Color.swift */,
+				A21974BB2C2F65500041D9DF /* DateConverter.swift */,
+				A21974B92C2F652F0041D9DF /* ToDoItemDetailViewEx.swift */,
+				A21974B72C2F65040041D9DF /* CustomColorPickerView.swift */,
 				A2376B1D2C244EDB0039C546 /* ToDoApp */,
 				A2376B2E2C244EDF0039C546 /* ToDoAppTests */,
 				A2376B382C244EDF0039C546 /* ToDoAppUITests */,
@@ -109,9 +143,8 @@
 				A2376B222C244EDE0039C546 /* Assets.xcassets */,
 				A2376B242C244EDE0039C546 /* Preview Content */,
 				A2AF9BAE2C25EBB200F62EA2 /* Models */,
-				A2AF9BAC2C25E2F800F62EA2 /* TodoItem+JSON.swift */,
-				A2AF9BAA2C24947F00F62EA2 /* TodoItem+CSV.swift */,
 				A2376B4A2C248DC60039C546 /* FileCache.swift */,
+				A21974B52C2F64E20041D9DF /* ToDoItemElements.swift */,
 			);
 			path = ToDoApp;
 			sourceTree = "<group>";
@@ -146,6 +179,11 @@
 			isa = PBXGroup;
 			children = (
 				A2376B482C248D860039C546 /* TodoItem.swift */,
+				A21974A92C2F63440041D9DF /* TodoItemList.swift */,
+				A2AF9BAC2C25E2F800F62EA2 /* TodoItem+JSON.swift */,
+				A21974AB2C2F63660041D9DF /* ToDoItemCell.swift */,
+				A21974B32C2F646B0041D9DF /* ToDoListCoordinator..swift */,
+				A2AF9BAA2C24947F00F62EA2 /* TodoItem+CSV.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -282,10 +320,20 @@
 			files = (
 				A2376B212C244EDB0039C546 /* ContentView.swift in Sources */,
 				A2376B492C248D860039C546 /* TodoItem.swift in Sources */,
+				A21974B62C2F64E20041D9DF /* ToDoItemElements.swift in Sources */,
+				A21974AC2C2F63660041D9DF /* ToDoItemCell.swift in Sources */,
+				A21974BE2C2F66120041D9DF /* Color.swift in Sources */,
+				A21974BC2C2F65500041D9DF /* DateConverter.swift in Sources */,
 				A2AF9BAD2C25E2F800F62EA2 /* TodoItem+JSON.swift in Sources */,
 				A2376B1F2C244EDB0039C546 /* ToDoAppApp.swift in Sources */,
 				A2AF9BB02C25F3F400F62EA2 /* FileCache.swift in Sources */,
+				A21974AA2C2F63440041D9DF /* TodoItemList.swift in Sources */,
+				A21974B82C2F65040041D9DF /* CustomColorPickerView.swift in Sources */,
+				A21974BA2C2F652F0041D9DF /* ToDoItemDetailViewEx.swift in Sources */,
 				A2AF9BAB2C24947F00F62EA2 /* TodoItem+CSV.swift in Sources */,
+				A21974AE2C2F63850041D9DF /* PlusButton.swift in Sources */,
+				A21974B22C2F63F10041D9DF /* Circle.swift in Sources */,
+				A21974B42C2F646B0041D9DF /* ToDoListCoordinator..swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
