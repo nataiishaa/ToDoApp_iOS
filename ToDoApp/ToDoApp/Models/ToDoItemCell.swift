@@ -62,7 +62,7 @@ struct ToDoItemCell: View {
     var calendar: some View {
         HStack {
             if let todo = fileCache.toDoItems[todoId] {
-                if let deadline = dateConverter.formatDateToDayMonthString(date: todo.deadline) {
+                if let deadline = dateConverter.convertDateToStringDayMonth(date: todo.deadline) {
                     Text(Image(systemName: "calendar"))
                     
                     Text(deadline)
