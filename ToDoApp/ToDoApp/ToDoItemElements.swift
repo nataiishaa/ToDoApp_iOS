@@ -8,12 +8,12 @@
 import Foundation
 import SwiftUI
 
-struct ToDoItemDetailView: View {
-    @State var itemID: UUID
-    @ObservedObject var viewModel: ViewModel
+struct ToDoItemElements: View {
     @FocusState private var isFocused: Bool
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var fileCache: FileCache
+    @State var itemID: UUID
+    @ObservedObject var viewModel: ViewModel
     
     init(itemID: UUID) {
         self._itemID = State(initialValue: itemID)
@@ -277,6 +277,6 @@ struct ToDoItemDetailView: View {
 }
 
 #Preview {
-    ToDoItemDetailView(itemID: UUID())
+    ToDoItemElements(itemID: UUID())
 }
 

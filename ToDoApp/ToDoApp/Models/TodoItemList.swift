@@ -71,7 +71,7 @@ struct TodoItemList: View {
                 viewModel.loadItems()
             }
         }) {
-            ToDoItemDetailView(itemID: viewModel.selectedItem?.id ?? UUID())
+            ToDoItemElements(itemID: viewModel.selectedItem?.id ?? UUID())
                 .environmentObject(fileCache)
         }
         .onAppear {
@@ -102,16 +102,16 @@ struct TodoItemList: View {
                 }
                 Button(action: viewModel.sortedByImportance) {
                     HStack {
-                        if viewModel.currentSortOption == .byImportance {
+                        if viewModel.currentSortOption == .byImportant {
                             Image(systemName: "checkmark")
                         }
                         Text("Сортировать по важности")
                     }
                 }
                 Button(action: {
-                    viewModel.showCompleted ? viewModel.hideCompletedTasks() : viewModel.showCompletedTasks()
+                    viewModel.showBoo ? viewModel.hideCompletedTasks() : viewModel.showCompletedTasks()
                 }) {
-                    Text(viewModel.showCompleted ? "Скрыть выполненные" : "Показать выполненные")
+                    Text(viewModel.showBoo ? "Скрыть выполненные" : "Показать выполненные")
                 }
             } label: {
                 Label("Фильтр", systemImage: "line.horizontal.3.decrease.circle")

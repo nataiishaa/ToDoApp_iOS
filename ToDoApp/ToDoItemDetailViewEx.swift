@@ -10,7 +10,7 @@ import Foundation
 import Foundation
 import SwiftUI
 
-extension ToDoItemDetailView {
+extension ToDoItemElements {
     class ViewModel: ObservableObject {
         
         var id: UUID

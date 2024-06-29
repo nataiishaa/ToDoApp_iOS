@@ -12,7 +12,7 @@
 		A21974AE2C2F63850041D9DF /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21974AD2C2F63850041D9DF /* PlusButton.swift */; };
 		A21974B22C2F63F10041D9DF /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21974B12C2F63F10041D9DF /* Circle.swift */; };
 		A21974B42C2F646B0041D9DF /* ToDoListCoordinator..swift in Sources */ = {isa = PBXBuildFile; fileRef = A21974B32C2F646B0041D9DF /* ToDoListCoordinator..swift */; };
-		A21974B62C2F64E20041D9DF /* ToDoItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21974B52C2F64E20041D9DF /* ToDoItemDetailView.swift */; };
+		A21974B62C2F64E20041D9DF /* ToDoItemElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21974B52C2F64E20041D9DF /* ToDoItemElements.swift */; };
 		A21974B82C2F65040041D9DF /* CustomColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21974B72C2F65040041D9DF /* CustomColorPickerView.swift */; };
 		A21974BA2C2F652F0041D9DF /* ToDoItemDetailViewEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21974B92C2F652F0041D9DF /* ToDoItemDetailViewEx.swift */; };
 		A21974BC2C2F65500041D9DF /* DateConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21974BB2C2F65500041D9DF /* DateConverter.swift */; };
@@ -54,7 +54,7 @@
 		A21974AD2C2F63850041D9DF /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
 		A21974B12C2F63F10041D9DF /* Circle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = "<group>"; };
 		A21974B32C2F646B0041D9DF /* ToDoListCoordinator..swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListCoordinator..swift; sourceTree = "<group>"; };
-		A21974B52C2F64E20041D9DF /* ToDoItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemDetailView.swift; sourceTree = "<group>"; };
+		A21974B52C2F64E20041D9DF /* ToDoItemElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemElements.swift; sourceTree = "<group>"; };
 		A21974B72C2F65040041D9DF /* CustomColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColorPickerView.swift; sourceTree = "<group>"; };
 		A21974B92C2F652F0041D9DF /* ToDoItemDetailViewEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemDetailViewEx.swift; sourceTree = "<group>"; };
 		A21974BB2C2F65500041D9DF /* DateConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConverter.swift; sourceTree = "<group>"; };
@@ -144,7 +144,7 @@
 				A2376B242C244EDE0039C546 /* Preview Content */,
 				A2AF9BAE2C25EBB200F62EA2 /* Models */,
 				A2376B4A2C248DC60039C546 /* FileCache.swift */,
-				A21974B52C2F64E20041D9DF /* ToDoItemDetailView.swift */,
+				A21974B52C2F64E20041D9DF /* ToDoItemElements.swift */,
 			);
 			path = ToDoApp;
 			sourceTree = "<group>";
@@ -320,7 +320,7 @@
 			files = (
 				A2376B212C244EDB0039C546 /* ContentView.swift in Sources */,
 				A2376B492C248D860039C546 /* TodoItem.swift in Sources */,
-				A21974B62C2F64E20041D9DF /* ToDoItemDetailView.swift in Sources */,
+				A21974B62C2F64E20041D9DF /* ToDoItemElements.swift in Sources */,
 				A21974AC2C2F63660041D9DF /* ToDoItemCell.swift in Sources */,
 				A21974BE2C2F66120041D9DF /* Color.swift in Sources */,
 				A21974BC2C2F65500041D9DF /* DateConverter.swift in Sources */,

@@ -19,7 +19,7 @@ extension TodoItemList {
         var completedCount = 0
         private let feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
         private var cancellables: Set<AnyCancellable> = []
-        var showCompleted = true
+        var showBoo = true
         var firstInit = true
         @Published var currentSortOption: SortOption = .byDate
         
@@ -80,13 +80,13 @@ extension TodoItemList {
         }
         
         private func updateFilteredItems(items: [UUID: TodoItem], sortOption: SortOption) {
-                    if showCompleted {
+                    if showBoo {
                         self.filteredItems = items.values.sorted {
                             if $0.isCompleted == $1.isCompleted {
                                 switch sortOption {
                                 case .byDate:
                                     return $0.createDate > $1.createDate
-                                case .byImportance:
+                                case .byImportant:
                                     return compareImportance($0.importance, $1.importance)
                                 case .none:
                                     return false
@@ -99,7 +99,7 @@ extension TodoItemList {
                             switch sortOption {
                             case .byDate:
                                 return $0.createDate > $1.createDate
-                            case .byImportance:
+                            case .byImportant:
                                 return compareImportance($0.importance, $1.importance)
                             case .none:
                                 return false
@@ -119,7 +119,7 @@ extension TodoItemList {
         }
         
         func sortedByImportance() {
-            self.currentSortOption = .byImportance
+            self.currentSortOption = .byImportant
             self.filteredItems.sort {
                 if $0.isCompleted == $1.isCompleted {
                     return compareImportance($0.importance, $1.importance)
@@ -134,7 +134,7 @@ extension TodoItemList {
         }
         
         func showCompletedTasks() {
-            self.showCompleted = true
+            self.showBoo = true
             if let fileCache = self.fileCache {
                 self.filteredItems = fileCache.toDoItems.values.sorted {
                     if $0.isCompleted == $1.isCompleted {
@@ -146,7 +146,7 @@ extension TodoItemList {
         }
         
         func hideCompletedTasks() {
-            self.showCompleted = false
+            self.showBoo = false
             if let fileCache = self.fileCache {
                 self.filteredItems = fileCache.toDoItems.values.filter { !$0.isCompleted }.sorted(by: { $0.createDate > $1.createDate })
             }
@@ -155,7 +155,7 @@ extension TodoItemList {
         enum SortOption: String {
             case none = "Без сортировки"
             case byDate = "По дате создания"
-            case byImportance = "По важности"
+            case byImportant = "По важности"
         }
     }
 }
