@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ToDoItemCell: View {
     
-    @EnvironmentObject var fileCache: FileCache
+    let fileCache = FileCache.shared
     @State var todoId: UUID
     var dateConverter = DateConverter()
     var action: () -> ()
@@ -23,24 +23,27 @@ struct ToDoItemCell: View {
             }
             .padding(.leading, 5)
             Spacer()
+            colorRectangle
             Image(systemName: "chevron.right")
                 .foregroundStyle(.colorGray)
             
         }
-        .padding(10)
-        .background(
-            Color(hex: fileCache.toDoItems[todoId]?.color ?? "#FFFFFF") // Цвет фона
-        )
-        .cornerRadius(10)
         .onTapGesture {
             action()
         }
     }
     
+    var colorRectangle: some View {
+        Rectangle()
+            .fill(Color(hex: fileCache.toDoItems[todoId]?.color ?? "#FFFFFF"))
+            .frame(width: 5)
+            .overlay(Rectangle().stroke(Color.labelPrimary, style: StrokeStyle(lineWidth: 1)))
+    }
+    
     var textTask: some View {
         HStack {
             if let todo = fileCache.toDoItems[todoId] {
-                if !todo.isCompleted && todo.importance != .usual {
+                if !todo.isCompleted && todo.importance != .usual{
                     Text(todo.importance == .important ? Image(systemName: "exclamationmark.2") : Image(systemName: "arrow.down"))
                         .foregroundStyle(todo.importance == .important ? .colorRed : .colorGray)
                         .opacity(todo.isCompleted ? 0 : 1)
@@ -78,23 +81,26 @@ struct ToDoItemCell: View {
             if let todo = fileCache.toDoItems[todoId] {
                 VStack {
                     if todo.isCompleted {
-                        SolvedCircle()
+                        DoneCircle()
                     } else {
                         if todo.importance == .important {
-                            DoneCircle()
+                            SolvedCircle()
                         } else {
                             DefaultCircle()
                         }
                     }
                 }
                 .onTapGesture {
-                    DispatchQueue.main.async {
-                        fileCache.updateTodoItem(id: todo.id, isCompleted: !todo.isCompleted, to: "Save.json")
-                        
-                    }
+                    fileCache.updateTodoItem(id: todo.id, isCompleted: !todo.isCompleted, to: "S")
                 }
             }
         }
     }
 }
 
+
+#Preview {
+    ToDoItemCell(todoId: UUID()) {
+        print("Item tapped")
+    }
+}

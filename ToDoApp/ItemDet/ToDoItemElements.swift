@@ -5,15 +5,16 @@
 //  Created by Наталья Захарова on 29.06.2024.
 //
 
-import Foundation
+import SwiftUI
 import SwiftUI
 
-struct ToDoItemElements: View {
+struct ToDoItemDetailView: View {
     @FocusState private var isFocused: Bool
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var fileCache: FileCache
     @State var itemID: UUID
     @ObservedObject var viewModel: ViewModel
+    
     
     init(itemID: UUID) {
         self._itemID = State(initialValue: itemID)
@@ -24,7 +25,7 @@ struct ToDoItemElements: View {
         NavigationStack {
             if viewModel.currentOrientation == .landscapeLeft || viewModel.currentOrientation == .landscapeRight {
                 landscape
-                    .background(Color(.systemBackground))
+                    .background(.backPrimary)
                     .navigationTitle("Дело")
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
@@ -35,24 +36,21 @@ struct ToDoItemElements: View {
                         }
                         ToolbarItem(placement: .topBarTrailing) {
                             Button("Сохранить") {
-                                DispatchQueue.main.async {
-                                    viewModel.save()
-                                }
+                                viewModel.save()
                                 dismiss()
                             }.disabled(viewModel.text.isEmpty)
                         }
                     }
                     .onAppear {
-                        DispatchQueue.global().async {
-                            self.viewModel.setup(self.fileCache)
-                        }
+                        self.viewModel.setup()
                         if let colorHex = viewModel.item?.color {
                             viewModel.selectedColor = Color(hex: colorHex)
                         }
                     }
-            } else {
+            }
+            else {
                 portrait
-                    .background(Color(.systemBackground))
+                    .background(.backPrimary)
                     .navigationTitle("Дело")
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
@@ -63,19 +61,15 @@ struct ToDoItemElements: View {
                         }
                         ToolbarItem(placement: .topBarTrailing) {
                             Button("Сохранить") {
-                                DispatchQueue.main.async {
-                                    viewModel.save()
-                                    dismiss()
-                                }
+                                viewModel.save()
+                                dismiss()
                             }.disabled(viewModel.text.isEmpty)
                         }
                     }
                     .onAppear {
-                        DispatchQueue.main.async {
-                            self.viewModel.setup(self.fileCache)
-                            if let colorHex = viewModel.item?.color {
-                                viewModel.selectedColor = Color(hex: colorHex)
-                            }
+                        self.viewModel.setup()
+                        if let colorHex = viewModel.item?.color {
+                            viewModel.selectedColor = Color(hex: colorHex)
                         }
                     }
             }
@@ -91,16 +85,17 @@ struct ToDoItemElements: View {
                 Section {
                     customTextEditor
                 }
-                .listRowBackground(Color(.systemGroupedBackground))
+                .listRowBackground(Color.backSecondary)
                 
                 Section {
                     importancePicker
+                    categoriesPicker
                     deadlineToggle
                     if viewModel.isDeadline {
                         calendarPicker
                     }
                 }
-                .listRowBackground(Color(.systemGroupedBackground))
+                .listRowBackground(Color.backSecondary)
                 
                 Section {
                     Button(action: {
@@ -112,7 +107,7 @@ struct ToDoItemElements: View {
                                 Text(viewModel.selectedColor.hexString)
                                     .bold()
                             }
-                            .foregroundColor(.primary)
+                            .foregroundStyle(.labelPrimary)
                             
                             Spacer()
                             
@@ -120,12 +115,12 @@ struct ToDoItemElements: View {
                         }
                     }
                 }
-                .listRowBackground(Color(.systemGroupedBackground))
+                .listRowBackground(Color.backSecondary)
                 
                 Section {
                     deleteButton
                 }
-                .listRowBackground(Color(.systemGroupedBackground))
+                .listRowBackground(Color.backSecondary)
             }
             .scrollContentBackground(.hidden)
             .transition(.slide)
@@ -138,10 +133,10 @@ struct ToDoItemElements: View {
                 Section {
                     customTextEditor
                         .frame(maxWidth: isFocused ? .infinity : .none, maxHeight: .infinity)
-                        .background(Color(.systemGroupedBackground))
+                        .background(Color.backSecondary)
                         .transition(.slide)
                 }
-                .listRowBackground(Color(.systemGroupedBackground))
+                .listRowBackground(Color.backSecondary)
             }
             .scrollContentBackground(.hidden)
             
@@ -149,12 +144,13 @@ struct ToDoItemElements: View {
                 Form {
                     Section {
                         importancePicker
+                        categoriesPicker
                         deadlineToggle
                         if viewModel.isDeadline {
                             calendarPicker
                         }
                     }
-                    .listRowBackground(Color(.systemGroupedBackground))
+                    .listRowBackground(Color.backSecondary)
                     
                     Section {
                         Button(action: {
@@ -166,7 +162,7 @@ struct ToDoItemElements: View {
                                     Text(viewModel.selectedColor.hexString)
                                         .bold()
                                 }
-                                .foregroundColor(.primary)
+                                .foregroundStyle(.labelPrimary)
                                 
                                 Spacer()
                                 
@@ -174,12 +170,12 @@ struct ToDoItemElements: View {
                             }
                         }
                     }
-                    .listRowBackground(Color(.systemGroupedBackground))
+                    .listRowBackground(Color.backSecondary)
                     
                     Section {
                         deleteButton
                     }
-                    .listRowBackground(Color(.systemGroupedBackground))
+                    .listRowBackground(Color.backSecondary)
                 }
                 .frame(maxWidth: .infinity)
                 .scrollContentBackground(.hidden)
@@ -192,7 +188,7 @@ struct ToDoItemElements: View {
             TextEditor(text: $viewModel.text)
                 .frame(minHeight: 150, maxHeight: .infinity)
                 .focused($isFocused)
-                .foregroundColor(isFocused || !viewModel.text.isEmpty ? .primary : .secondary)
+                .foregroundStyle(isFocused || !viewModel.text.isEmpty ? .labelPrimary : .labelTertiary)
                 .toolbar {
                     ToolbarItemGroup(placement: .keyboard) {
                         Spacer()
@@ -201,14 +197,25 @@ struct ToDoItemElements: View {
                         }
                     }
                 }
-       
+            if viewModel.text.isEmpty {
+                VStack {
+                    HStack {
+                        Text(viewModel.emptyText)
+                            .foregroundStyle(.tertiary)
+                            .padding(.top, 8)
+                            .padding(.leading, 5)
+                        Spacer()
+                    }
+                    Spacer()
+                }
+            }
         }
     }
     
     var importancePicker: some View {
         HStack {
             Text("Важность")
-                .foregroundColor(.primary)
+                .foregroundStyle(.labelPrimary)
                 .font(.system(size: 17))
             Spacer()
             Picker("Важность", selection: $viewModel.importance) {
@@ -216,18 +223,35 @@ struct ToDoItemElements: View {
                     switch priority {
                     case .unimportant:
                         Image(systemName: "arrow.down")
-                            .foregroundColor(.gray)
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle(.colorGray)
                     case .usual:
                         Text("нет")
                     case .important:
                         Image(systemName: "exclamationmark.2")
-                            .foregroundColor(.red)
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle(.colorRed)
                     }
                 }
             }
             .frame(width: 175)
-            .pickerStyle(SegmentedPickerStyle())
+            .pickerStyle(.segmented)
         }
+    }
+    
+    var categoriesPicker: some View {
+        Picker("Категория", selection: $viewModel.category) {
+            ForEach(viewModel.allCategories) { category in
+                HStack {
+                    Image(systemName: "circle.fill")
+                        .symbolRenderingMode(.palette)
+                        .foregroundColor(category.color)
+                    Text(category.name)
+                }
+                .tag(category)
+            }
+        }
+        .pickerStyle(.menu)
     }
     
     var deadlineToggle: some View {
@@ -235,7 +259,7 @@ struct ToDoItemElements: View {
             VStack(alignment: .leading, spacing: 5) {
                 HStack {
                     Text("Сделать до")
-                        .foregroundColor(.primary)
+                        .foregroundStyle(.labelPrimary)
                 }
                 
                 if viewModel.isDeadline {
@@ -254,15 +278,14 @@ struct ToDoItemElements: View {
             in: Date.now...,
             displayedComponents: [.date]
         )
-        .datePickerStyle(GraphicalDatePickerStyle())
-        .environment(\.locale, Locale(identifier: "ru"))
+        .datePickerStyle(.graphical)
+        .environment(\.locale, Locale.init(identifier: "ru"))
+        
     }
     
     var deleteButton: some View {
         Button(role: .destructive){
-            DispatchQueue.global().async {
-                viewModel.delete()
-            }
+            viewModel.delete()
             dismiss()
         } label: {
             HStack {
@@ -277,6 +300,5 @@ struct ToDoItemElements: View {
 }
 
 #Preview {
-    ToDoItemElements(itemID: UUID())
+    ToDoItemDetailView(itemID: UUID())
 }
-

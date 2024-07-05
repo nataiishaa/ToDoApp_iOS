@@ -4,17 +4,17 @@
 //
 //  Created by Наталья Захарова on 25.06.2024.
 //
+
 import SwiftUI
 
 struct TodoItemList: View {
-    @StateObject private var fileCache = FileCache()
     @StateObject var viewModel = ViewModel()
     
     var body: some View {
         NavigationStack {
             ZStack {
                 VStack {
-                    List {
+                    List() {
                         Section(header: header) {
                             ForEach(Array(viewModel.filteredItems), id: \.id) { item in
                                 ToDoItemCell(todoId: item.id) {
@@ -26,6 +26,7 @@ struct TodoItemList: View {
                                     Button {
                                         viewModel.triggerFeedback()
                                         viewModel.compliteItem(item: item)
+                                        
                                     } label: {
                                         Label("Check", systemImage: "checkmark.circle.fill")
                                     }
@@ -35,6 +36,7 @@ struct TodoItemList: View {
                                     Button {
                                         viewModel.triggerFeedback()
                                         viewModel.deleteItem(id: item.id)
+                                        
                                     } label: {
                                         Label("Trash", systemImage: "trash.fill")
                                     }
@@ -61,27 +63,37 @@ struct TodoItemList: View {
                         viewModel.showDetailView.toggle()
                     }
             }
+            .toolbar {
+                ToolbarItem {
+                    NavigationLink() {
+                        CalendarView()
+                    } label: {
+                        Image(systemName: "calendar")
+                    }
+                }
+                ToolbarItem {
+                    NavigationLink() {
+                        AddCategoryView()
+                    } label: {
+                        Image(systemName: "gear")
+                    }
+                }
+            }
             .navigationTitle("Мои дела")
         }
+        .scrollIndicators(.hidden)
         .scrollContentBackground(.hidden)
         .background(Color.backPrimary)
         .sheet(isPresented: $viewModel.showDetailView, onDismiss: {
             viewModel.selectedItem = nil
-            DispatchQueue.global(qos: .background).async {
-                viewModel.loadItems()
-            }
+            viewModel.loadItems()
         }) {
-            ToDoItemElements(itemID: viewModel.selectedItem?.id ?? UUID())
-                .environmentObject(fileCache)
+            ToDoItemDetailView(itemID: viewModel.selectedItem?.id ?? UUID())
         }
         .onAppear {
-            self.viewModel.setup(self.fileCache)
-            
-            DispatchQueue.global(qos: .background).async {
-                viewModel.loadItems()
-            }
+            self.viewModel.setup()
+            viewModel.loadItems()
         }
-        .environmentObject(fileCache)
     }
     
     var header: some View {
@@ -102,16 +114,16 @@ struct TodoItemList: View {
                 }
                 Button(action: viewModel.sortedByImportance) {
                     HStack {
-                        if viewModel.currentSortOption == .byImportant {
+                        if viewModel.currentSortOption == .byImportance {
                             Image(systemName: "checkmark")
                         }
                         Text("Сортировать по важности")
                     }
                 }
                 Button(action: {
-                    viewModel.showBoo ? viewModel.hideCompletedTasks() : viewModel.showCompletedTasks()
+                    viewModel.showCompleted ? viewModel.hideCompletedTasks() : viewModel.showCompletedTasks()
                 }) {
-                    Text(viewModel.showBoo ? "Скрыть выполненные" : "Показать выполненные")
+                    Text(viewModel.showCompleted ? "Скрыть выполненные" : "Показать выполненные")
                 }
             } label: {
                 Label("Фильтр", systemImage: "line.horizontal.3.decrease.circle")
