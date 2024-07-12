@@ -61,7 +61,7 @@ extension ViewBuilder: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let uncompleteAction = UIContextualAction(style: .normal, title: "Uncomplete") { [weak self] (action, view, completionHandler) in
+        let uncompleteAction = UIContextualAction(style: .normal, title: "Uncomplete") { [weak self] (_, _, completionHandler) in
             self?.toggleTodoItemCompletion(at: indexPath, value: false)
             completionHandler(true)
         }
@@ -71,7 +71,7 @@ extension ViewBuilder: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let completeAction = UIContextualAction(style: .normal, title: "Complete") { [weak self] (action, view, completionHandler) in
+        let completeAction = UIContextualAction(style: .normal, title: "Complete") { [weak self] (_, _, completionHandler) in
             self?.toggleTodoItemCompletion(at: indexPath, value: true)
             completionHandler(true)
         }
@@ -97,4 +97,3 @@ extension ViewBuilder: UITableViewDataSource, UITableViewDelegate {
         }
     }
 }
-

@@ -11,22 +11,20 @@ import Combine
 import SwiftUI
 
 class TodoListViewController: UIViewController {
-    
-    
+
     private lazy var builder = {
         return ViewBuilder(viewController: self)
     }()
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         view.backgroundColor = .backPrimary
-        
+
         builder.getDatesSlider()
         builder.getItemsTable()
     }
-    
+
     func updatePage() {
         builder.updatePage()
     }

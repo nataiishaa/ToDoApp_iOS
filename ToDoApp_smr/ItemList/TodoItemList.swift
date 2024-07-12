@@ -6,15 +6,16 @@
 //
 
 import SwiftUI
+import CocoaLumberjackSwift
 
 struct TodoItemList: View {
-    @StateObject var viewModel = ViewModel()
-    
+	@StateObject var viewModel = ViewModel()
+
     var body: some View {
         NavigationStack {
             ZStack {
                 VStack {
-                    List() {
+                    List {
                         Section(header: header) {
                             ForEach(Array(viewModel.filteredItems), id: \.id) { item in
                                 ToDoItemCell(todoId: item.id) {
@@ -26,7 +27,7 @@ struct TodoItemList: View {
                                     Button {
                                         viewModel.triggerFeedback()
                                         viewModel.compliteItem(item: item)
-                                        
+										DDLogInfo("Done button triggered")
                                     } label: {
                                         Label("Check", systemImage: "checkmark.circle.fill")
                                     }
@@ -36,15 +37,16 @@ struct TodoItemList: View {
                                     Button {
                                         viewModel.triggerFeedback()
                                         viewModel.deleteItem(id: item.id)
-                                        
+										DDLogInfo("Delete button triggered")
                                     } label: {
                                         Label("Trash", systemImage: "trash.fill")
                                     }
                                     .tint(.red)
-                                    
+
                                     Button {
                                         viewModel.selectedItem = item
                                         viewModel.showDetailView.toggle()
+										DDLogInfo("Info button is pressed")
                                     } label: {
                                         Label("Info", systemImage: "info.circle.fill")
                                     }
@@ -57,7 +59,7 @@ struct TodoItemList: View {
                     .background(Color.backPrimary)
                 }
                 .background(Color.backPrimary)
-                
+
                 PlusButton()
                     .onTapGesture {
                         viewModel.showDetailView.toggle()
@@ -65,14 +67,14 @@ struct TodoItemList: View {
             }
             .toolbar {
                 ToolbarItem {
-                    NavigationLink() {
+                    NavigationLink {
                         CalendarView()
                     } label: {
                         Image(systemName: "calendar")
                     }
                 }
                 ToolbarItem {
-                    NavigationLink() {
+                    NavigationLink {
                         AddCategoryView()
                     } label: {
                         Image(systemName: "gear")
@@ -95,14 +97,14 @@ struct TodoItemList: View {
             viewModel.loadItems()
         }
     }
-    
+
     var header: some View {
         HStack {
             Text("Выполнено - \(viewModel.completedCount)")
                 .foregroundStyle(.labelTertiary)
-            
+
             Spacer()
-            
+
             Menu {
                 Button(action: viewModel.sortedByCreatingDate) {
                     HStack {
@@ -136,4 +138,3 @@ struct TodoItemList: View {
 #Preview {
     TodoItemList()
 }
-

@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import FileCache
 
 final class ViewManager {
     private let dateFormatter = DateConverter()
@@ -17,7 +18,7 @@ final class ViewManager {
     var items: [TodoItem] = []
     var fileCache = FileCache.shared
 
-    func getCollection(id: String, dataSource: UICollectionViewDataSource, delegate: UICollectionViewDelegate) -> UICollectionView {
+	func getCollection(id: String, dataSource: UICollectionViewDataSource, delegate: UICollectionViewDelegate) -> UICollectionView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 62, height: 62)
@@ -69,7 +70,7 @@ final class ViewManager {
             var items = itemsByDate[date] ?? []
             items.sort { $0.text < $1.text }
             let title = dateFormatter.convertDateToStringDayMonth(date: date) ?? "Другое"
-            
+
             if let index = dateSections.firstIndex(where: { $0.0 == title }) {
                 dateSections[index].1.append(contentsOf: items)
             } else {
@@ -91,9 +92,6 @@ final class ViewManager {
         return sections
     }
 
-
-
-    
     func getSortedDates() -> [String] {
         let deadlines = items.compactMap { $0.deadline }
         let hasNilDeadline = items.contains { $0.deadline == nil }
@@ -105,8 +103,7 @@ final class ViewManager {
         if hasNilDeadline {
             finalUniqueDatesArray.append("Другое")
         }
-        
+
         return finalUniqueDatesArray
     }
 }
-

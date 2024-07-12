@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import FileCache
 
 final class ViewBuilder: NSObject {
     let manager = ViewManager.shared
@@ -23,7 +23,7 @@ final class ViewBuilder: NSObject {
 
     private(set) var datesCollection: UICollectionView!
     private(set) var itemsTable: UITableView!
-    
+
     private let dataQueue = DispatchQueue(label: "com.todoapp.dataQueue")
     var selectedDateIndex: IndexPath?
 
@@ -31,19 +31,17 @@ final class ViewBuilder: NSObject {
         self.viewController = viewController
         self.view = viewController.view
         super.init()
-        self.manager.loadItem
-        {
+        self.manager.loadItem {
             self.reloadData()
         }
     }
-    
+
     func updatePage() {
-        self.manager.loadItem
-        {
+        self.manager.loadItem {
             self.reloadData()
         }
     }
-    
+
     func reloadData() {
         dataQueue.async {
             self.uniqueDatesArray = self.manager.getSortedDates()
@@ -59,9 +57,9 @@ final class ViewBuilder: NSObject {
     func getDatesSlider() {
         datesCollection = manager.getCollection(id: "dates", dataSource: self, delegate: self)
         datesCollection.register(DateCell.self, forCellWithReuseIdentifier: "cell")
-        
+
         view.addSubview(datesCollection)
-        
+
         datesCollection.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
@@ -70,10 +68,10 @@ final class ViewBuilder: NSObject {
             datesCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             datesCollection.heightAnchor.constraint(equalToConstant: 100)
         ])
-        
+
         addHorizontalSeparator(below: datesCollection)
     }
-    
+
     func getItemsTable() {
         itemsTable = UITableView(frame: .zero, style: .insetGrouped)
         itemsTable.dataSource = self
@@ -83,23 +81,23 @@ final class ViewBuilder: NSObject {
         itemsTable.backgroundColor = .backPrimary
 
         view.addSubview(itemsTable)
-        
+
         itemsTable.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
             itemsTable.topAnchor.constraint(equalTo: datesCollection.bottomAnchor),
             itemsTable.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             itemsTable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            itemsTable.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            itemsTable.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-    
+
     func addHorizontalSeparator(below view: UIView) {
         let separator = UIView()
         separator.backgroundColor = UIColor.lightGray
         separator.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(separator)
-        
+
         NSLayoutConstraint.activate([
             separator.topAnchor.constraint(equalTo: view.bottomAnchor),
             separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -107,10 +105,10 @@ final class ViewBuilder: NSObject {
             separator.heightAnchor.constraint(equalToConstant: 1)
         ])
     }
-    
+
     func updateSelectedDate(for date: String) {
         guard let collectionView = datesCollection else { return }
-        
+
         for (index, uniqueDate) in uniqueDatesArray.enumerated() {
             if uniqueDate == date {
                 let indexPath = IndexPath(row: index, section: 0)
@@ -121,10 +119,10 @@ final class ViewBuilder: NSObject {
             }
         }
     }
-    
+
     func scrollToSection(for date: String) {
         guard let tableView = itemsTable else { return }
-        
+
         for (index, section) in sections.enumerated() {
             if section.title == date {
                 let indexPath = IndexPath(row: 0, section: index)
@@ -133,19 +131,16 @@ final class ViewBuilder: NSObject {
             }
         }
     }
-    
-    
+
     func updateSelectedDateForVisibleSection() {
         guard let tableView = itemsTable else { return }
-        
+
         let visibleRows = tableView.indexPathsForVisibleRows ?? []
         let sortedVisibleRows = visibleRows.sorted()
-        
+
         if let firstVisibleRow = sortedVisibleRows.first {
             let date = sections[firstVisibleRow.section].title
             updateSelectedDate(for: date)
         }
     }
 }
-
-

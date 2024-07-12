@@ -11,7 +11,7 @@ import SwiftUI
 struct CategorySelectionView: View {
     @StateObject var viewModel = AddCategoryView.ViewModel()
     @State private var showAddCategoryView = false
-    
+
     var body: some View {
         NavigationView {
             List {
@@ -19,7 +19,7 @@ struct CategorySelectionView: View {
                     Text(category.name)
                         .foregroundColor(category.color)
                 }
-                
+
                 Button(action: {
                     showAddCategoryView = true
                 }) {

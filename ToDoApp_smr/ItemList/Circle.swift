@@ -35,7 +35,6 @@ struct DefaultCircle: View {
     DefaultCircle()
 }
 
-
 struct DoneCircle: View {
     var body: some View {
         Image(systemName: "circle")

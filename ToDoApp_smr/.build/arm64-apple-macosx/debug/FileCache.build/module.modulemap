@@ -1,0 +1,4 @@
+module FileCache {
+    header "/Users/kirill/Documents/Projects/Swift/ToDoApp_iOS/ToDoApp_smr/.build/arm64-apple-macosx/debug/FileCache.build/FileCache-Swift.h"
+    requires objc
+}
