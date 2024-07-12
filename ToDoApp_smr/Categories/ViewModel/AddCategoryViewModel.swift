@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import FileCache
 
 extension AddCategoryView {
     class ViewModel: ObservableObject {
@@ -17,13 +18,13 @@ extension AddCategoryView {
                 saveCustomCategories()
             }
         }
-        
+
         var fileCache = FileCache.shared
-        
+
         @Published var text = ""
         @Published var showColorPicker = false
         @Published var selectedColor: Color = .white
-        
+
         init() {
             loadCategories()
             customCategories = loadCustomCategories()
@@ -34,7 +35,7 @@ extension AddCategoryView {
             let standardCategories = DefaultCategory.allCases.map { ItemCategory.standard($0) }
             allCategories = standardCategories + customCategories.map { ItemCategory.custom($0) }
         }
-        
+
         private func loadCustomCategories() -> [CustomCategory] {
             if let savedCategories = UserDefaults.standard.data(forKey: "customCategories"),
                let decodedCategories = try? JSONDecoder().decode([CustomCategory].self, from: savedCategories) {
@@ -42,7 +43,7 @@ extension AddCategoryView {
             }
             return []
         }
-        
+
         private func saveCustomCategories() {
             if let encoded = try? JSONEncoder().encode(customCategories) {
                 UserDefaults.standard.set(encoded, forKey: "customCategories")

@@ -6,24 +6,25 @@
 //
 
 import XCTest
+import FileCache
 @testable import ToDoApp
 
 class TodoItemTests: XCTestCase {
-    
+
     func testInitialization() {
-        let todo = TodoItem(text: "Test school", importance: .high, isCompleted: false)
+		let todo = TodoItem(text: "Test school", importance: .important, category: .standard(DefaultCategory.hobby), isCompleted: false)
         XCTAssertNotNil(todo)
         XCTAssertEqual(todo.text, "Test school")
-        XCTAssertEqual(todo.importance, .high)
+		XCTAssertEqual(todo.importance, .important)
         XCTAssertFalse(todo.isCompleted)
     }
 
     func testJSONSerialization() {
-        let todo = TodoItem(text: "Test school", importance: .normal, isCompleted: true)
+		let todo = TodoItem(text: "Test school", importance: .important, category: .standard(DefaultCategory.hobby), isCompleted: true)
         let json = todo.json as! [String: Any]
         XCTAssertNotNil(json)
         XCTAssertEqual(json["text"] as? String, "Test school")
-        XCTAssertNil(json["importance"])
+        XCTAssertNotNil(json["importance"])
         XCTAssertTrue(json["isCompleted"] as! Bool)
     }
 
@@ -31,13 +32,13 @@ class TodoItemTests: XCTestCase {
         let json: [String: Any] = [
             "id": "1",
             "text": "Test parsing",
-            "isCompleted": false,
+			"isCompleted": false,
             "creationDate": "2021-06-01T12:00:00Z"
         ]
-        let todo = TodoItem.parse(json: json)
+		let todo = TodoItem.parse(json: json)
         XCTAssertNotNil(todo)
         XCTAssertEqual(todo?.text, "Test parsing")
-        XCTAssertFalse(todo!.isCompleted)
+		XCTAssertFalse(todo?.isCompleted ?? false)
     }
 
     func testInvalidJSONParsing() {
@@ -52,7 +53,7 @@ class TodoItemTests: XCTestCase {
 
     func testInvalidCSVParsing() {
         let invalidCSV = "1,Test parsing,,false"
-        let todo = TodoItem.fromCSV(csvString: invalidCSV)
+        let todo = TodoItem.fromCSV(invalidCSV)
         XCTAssertNil(todo)
     }
 }

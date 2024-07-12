@@ -8,7 +8,7 @@
 import Foundation
 
 class DateConverter {
-    
+
     func convertDateToStringDayMonth(date: Date?) -> String? {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ru")
@@ -16,7 +16,7 @@ class DateConverter {
         guard let date = date else { return nil}
         return dateFormatter.string(from: date)
     }
-    
+
     func convertDateToStringDayMonthYear(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ru")

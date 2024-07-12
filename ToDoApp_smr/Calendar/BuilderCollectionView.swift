@@ -12,15 +12,15 @@ extension ViewBuilder: UICollectionViewDelegate, UICollectionViewDataSource, UIC
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return uniqueDatesArray.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! DateCell
         let displayText: String
-        
+
         displayText = uniqueDatesArray[indexPath.row] ?? "No Date"
-        
+
         cell.configure(with: displayText)
-        
+
         if indexPath == selectedDateIndex {
             cell.layer.borderWidth = 2
             cell.layer.cornerRadius = 10
@@ -34,10 +34,10 @@ extension ViewBuilder: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             cell.contentView.layer.cornerRadius = 10
             cell.contentView.backgroundColor = UIColor.backPrimary
         }
-        
+
         return cell
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedDate: String?
         if indexPath.row < uniqueDatesArray.count {
@@ -47,16 +47,15 @@ extension ViewBuilder: UICollectionViewDelegate, UICollectionViewDataSource, UIC
         }
         selectedDateIndex = indexPath
         scrollToSection(for: selectedDate ?? "Другое")
-        
+
         collectionView.reloadData()
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 70, height: 70)
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
 }
-

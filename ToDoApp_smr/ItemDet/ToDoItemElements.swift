@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import SwiftUI
+import FileCache
 
 struct ToDoItemDetailView: View {
     @FocusState private var isFocused: Bool
@@ -14,13 +14,12 @@ struct ToDoItemDetailView: View {
     @EnvironmentObject var fileCache: FileCache
     @State var itemID: UUID
     @ObservedObject var viewModel: ViewModel
-    
-    
+
     init(itemID: UUID) {
         self._itemID = State(initialValue: itemID)
         self._viewModel = ObservedObject(initialValue: ViewModel(id: itemID))
     }
-    
+
     var body: some View {
         NavigationStack {
             if viewModel.currentOrientation == .landscapeLeft || viewModel.currentOrientation == .landscapeRight {
@@ -47,8 +46,7 @@ struct ToDoItemDetailView: View {
                             viewModel.selectedColor = Color(hex: colorHex)
                         }
                     }
-            }
-            else {
+            } else {
                 portrait
                     .background(.backPrimary)
                     .navigationTitle("Дело")
@@ -78,7 +76,7 @@ struct ToDoItemDetailView: View {
             viewModel.currentOrientation = UIDevice.current.orientation
         }
     }
-    
+
     var portrait: some View {
         VStack {
             Form {
@@ -86,7 +84,7 @@ struct ToDoItemDetailView: View {
                     customTextEditor
                 }
                 .listRowBackground(Color.backSecondary)
-                
+
                 Section {
                     importancePicker
                     categoriesPicker
@@ -96,27 +94,27 @@ struct ToDoItemDetailView: View {
                     }
                 }
                 .listRowBackground(Color.backSecondary)
-                
+
                 Section {
                     Button(action: {
                         viewModel.showColorPicker.toggle()
                     }) {
                         HStack {
-                            VStack(alignment: .leading){
+                            VStack(alignment: .leading) {
                                 Text("Цвет")
                                 Text(viewModel.selectedColor.hexString)
                                     .bold()
                             }
                             .foregroundStyle(.labelPrimary)
-                            
+
                             Spacer()
-                            
+
                             CustomColorPickerView(colorValue: $viewModel.selectedColor)
                         }
                     }
                 }
                 .listRowBackground(Color.backSecondary)
-                
+
                 Section {
                     deleteButton
                 }
@@ -126,7 +124,7 @@ struct ToDoItemDetailView: View {
             .transition(.slide)
         }
     }
-    
+
     var landscape: some View {
         HStack {
             Form {
@@ -139,7 +137,7 @@ struct ToDoItemDetailView: View {
                 .listRowBackground(Color.backSecondary)
             }
             .scrollContentBackground(.hidden)
-            
+
             if !isFocused {
                 Form {
                     Section {
@@ -151,27 +149,27 @@ struct ToDoItemDetailView: View {
                         }
                     }
                     .listRowBackground(Color.backSecondary)
-                    
+
                     Section {
                         Button(action: {
                             viewModel.showColorPicker.toggle()
                         }) {
                             HStack {
-                                VStack(alignment: .leading){
+                                VStack(alignment: .leading) {
                                     Text("Цвет")
                                     Text(viewModel.selectedColor.hexString)
                                         .bold()
                                 }
                                 .foregroundStyle(.labelPrimary)
-                                
+
                                 Spacer()
-                                
+
                                 CustomColorPickerView(colorValue: $viewModel.selectedColor)
                             }
                         }
                     }
                     .listRowBackground(Color.backSecondary)
-                    
+
                     Section {
                         deleteButton
                     }
@@ -182,7 +180,7 @@ struct ToDoItemDetailView: View {
             }
         }
     }
-    
+
     var customTextEditor: some View {
         ZStack {
             TextEditor(text: $viewModel.text)
@@ -211,7 +209,7 @@ struct ToDoItemDetailView: View {
             }
         }
     }
-    
+
     var importancePicker: some View {
         HStack {
             Text("Важность")
@@ -238,7 +236,7 @@ struct ToDoItemDetailView: View {
             .pickerStyle(.segmented)
         }
     }
-    
+
     var categoriesPicker: some View {
         Picker("Категория", selection: $viewModel.category) {
             ForEach(viewModel.allCategories) { category in
@@ -253,7 +251,7 @@ struct ToDoItemDetailView: View {
         }
         .pickerStyle(.menu)
     }
-    
+
     var deadlineToggle: some View {
         Toggle(isOn: $viewModel.isDeadline.animation()) {
             VStack(alignment: .leading, spacing: 5) {
@@ -261,7 +259,7 @@ struct ToDoItemDetailView: View {
                     Text("Сделать до")
                         .foregroundStyle(.labelPrimary)
                 }
-                
+
                 if viewModel.isDeadline {
                     Text(viewModel.dateDeadlineFormated)
                         .font(.subheadline)
@@ -270,7 +268,7 @@ struct ToDoItemDetailView: View {
             }
         }
     }
-    
+
     var calendarPicker: some View {
         DatePicker(
             "Start Date",
@@ -280,11 +278,11 @@ struct ToDoItemDetailView: View {
         )
         .datePickerStyle(.graphical)
         .environment(\.locale, Locale.init(identifier: "ru"))
-        
+
     }
-    
+
     var deleteButton: some View {
-        Button(role: .destructive){
+        Button(role: .destructive) {
             viewModel.delete()
             dismiss()
         } label: {

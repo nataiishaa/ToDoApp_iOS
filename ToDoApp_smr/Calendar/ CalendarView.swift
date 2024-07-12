@@ -21,14 +21,13 @@ struct CalendarView: View {
         }
         .navigationTitle("Мои дела")
         .navigationBarTitleDisplayMode(.inline)
-        .sheet(isPresented: $showDetailView, onDismiss: {
-            DispatchQueue.main.async {
-                
-                needsUpdate = true
-            }
-        }) {
-            ToDoItemDetailView(itemID: UUID())
-        }
+		.sheet(isPresented: $showDetailView, onDismiss: {
+			DispatchQueue.main.async {
+				needsUpdate = true
+			}
+		}, content: {
+			ToDoItemDetailView(itemID: UUID())
+		})
     }
 }
 
@@ -38,7 +37,7 @@ struct UIKitCalendarView: UIViewControllerRepresentable {
         let viewController = TodoListViewController()
         return viewController
     }
-    
+
     func updateUIViewController(_ uiViewController: TodoListViewController, context: Context) {
         if needsUpdate {
             uiViewController.updatePage()
@@ -52,4 +51,3 @@ struct UIKitCalendarView: UIViewControllerRepresentable {
 #Preview {
     CalendarView()
 }
-

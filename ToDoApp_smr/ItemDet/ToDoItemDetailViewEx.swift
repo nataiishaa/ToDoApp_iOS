@@ -5,13 +5,13 @@
 //  Created by Наталья Захарова on 29.06.2024.
 //
 
-
 import Foundation
 import SwiftUI
+import FileCache
 
 extension ToDoItemDetailView {
-    class ViewModel: ObservableObject {
-        
+	@MainActor class ViewModel: ObservableObject {
+
         var id: UUID
         var fileCache = FileCache.shared
         var item: TodoItem?
@@ -25,24 +25,22 @@ extension ToDoItemDetailView {
         @Published var showColorPicker = false
         @Published var selectedColor: Color = .white
         @Published var allCategories: [ItemCategory] = []
-        
+
         @Published var customCategories: [CustomCategory] = [] {
             didSet {
                 saveCustomCategories()
             }
         }
-       
-          
 
         init(id: UUID = UUID()) {
             self.id = id
             loadCategories()
         }
-        
+
         var dateDeadlineFormated: String {
             dateConverter.convertDateToStringDayMonthYear(date: dateDeadline)
         }
-        
+
         func setup() {
             self.item = fileCache.toDoItems[id]
             guard let newItem = item else { return }
@@ -53,7 +51,7 @@ extension ToDoItemDetailView {
             self.dateDeadline = newDeadline
             self.isDeadline = true
         }
-        
+
         func save() {
             let todoItem = TodoItem(
                 id: self.id,
@@ -64,21 +62,21 @@ extension ToDoItemDetailView {
                 isCompleted: false,
                 color: self.selectedColor.hexString
             )
-            fileCache.updateTodoItem(todoItem, to:"Save.json")
+            fileCache.updateTodoItem(todoItem, to: "Save.json")
         }
-        
+
         func delete() {
             guard let item = self.item else { return }
             self.fileCache.deleteTodoItem(item.id)
             self.fileCache.saveTodoItems(to: "Save.json")
         }
-        
+
         func loadCategories() {
             let customCategories = loadCustomCategories()
             let standardCategories = DefaultCategory.allCases.map { ItemCategory.standard($0) }
             allCategories = standardCategories + customCategories.map { ItemCategory.custom($0) }
         }
-        
+
         private func loadCustomCategories() -> [CustomCategory] {
             if let savedCategories = UserDefaults.standard.data(forKey: "customCategories"),
                let decodedCategories = try? JSONDecoder().decode([CustomCategory].self, from: savedCategories) {
@@ -86,15 +84,15 @@ extension ToDoItemDetailView {
             }
             return []
         }
-        
+
         private func saveCustomCategories() {
             if let encoded = try? JSONEncoder().encode(customCategories) {
                 UserDefaults.standard.set(encoded, forKey: "customCategories")
             }
         }
-        
+
         @Published var currentOrientation = UIDevice.current.orientation
-        
+
         let orientationHasChanged = NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)
             .makeConnectable()
             .autoconnect()

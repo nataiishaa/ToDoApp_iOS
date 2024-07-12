@@ -1,0 +1,11 @@
+{
+  "": {
+    "swift-dependencies": "/Users/kirill/Documents/Projects/Swift/ToDoApp_iOS/ToDoApp_smr/.build/arm64-apple-macosx/debug/FileCacheTests.build/master.swiftdeps"
+  },
+  "/Users/kirill/Documents/Projects/Swift/ToDoApp_iOS/ToDoApp_smr/Tests/ToDoApp_smrTests/ToDoApp_smrTests.swift": {
+    "dependencies": "/Users/kirill/Documents/Projects/Swift/ToDoApp_iOS/ToDoApp_smr/.build/arm64-apple-macosx/debug/FileCacheTests.build/ToDoApp_smrTests/ToDoApp_smrTests.d",
+    "object": "/Users/kirill/Documents/Projects/Swift/ToDoApp_iOS/ToDoApp_smr/.build/arm64-apple-macosx/debug/FileCacheTests.build/ToDoApp_smrTests/ToDoApp_smrTests.swift.o",
+    "swiftmodule": "/Users/kirill/Documents/Projects/Swift/ToDoApp_iOS/ToDoApp_smr/.build/arm64-apple-macosx/debug/FileCacheTests.build/ToDoApp_smrTests/ToDoApp_smrTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/kirill/Documents/Projects/Swift/ToDoApp_iOS/ToDoApp_smr/.build/arm64-apple-macosx/debug/FileCacheTests.build/ToDoApp_smrTests/ToDoApp_smrTests.swiftdeps"
+  }
+}

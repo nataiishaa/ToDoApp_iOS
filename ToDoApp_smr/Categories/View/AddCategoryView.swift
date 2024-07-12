@@ -7,12 +7,14 @@
 
 import Foundation
 import SwiftUI
+import FileCache
+
 struct AddCategoryView: View {
     @StateObject var viewModel = ViewModel()
     @Environment(\.dismiss) var dismiss
     @State private var categoryName: String = ""
     @State private var selectedColor: Color = .black
-    
+
     var body: some View {
         VStack {
             Form {
@@ -21,7 +23,6 @@ struct AddCategoryView: View {
                 }
                 .listRowBackground(Color.backSecondary)
 
-                
                 Section(header: Text("Цвет категории")) {
                     ColorPicker("Выберите цвет", selection: $selectedColor)
                 }
@@ -41,7 +42,6 @@ struct AddCategoryView: View {
         )
     }
 }
-
 
 #Preview {
     AddCategoryView()
