@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// MARK: - View
+
 extension View {
 
     func markableAsDone(isDone: Bool, onAction: @escaping () -> Void) -> some View {

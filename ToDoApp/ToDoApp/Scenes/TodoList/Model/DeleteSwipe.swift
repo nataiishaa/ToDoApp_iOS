@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-// MARK: - DeleteSwipe
 struct DeleteSwipe: ViewModifier {
 
     var onAction: () -> Void

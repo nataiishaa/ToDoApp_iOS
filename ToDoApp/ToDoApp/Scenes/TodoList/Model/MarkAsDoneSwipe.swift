@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-// MARK: - MarkAsDoneSwipe
 struct MarkAsDoneSwipe: ViewModifier {
 
     var isDone: Bool

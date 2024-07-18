@@ -200,7 +200,6 @@ extension AnalyticsService {
 
 }
 
-
 extension AnalyticsService {
 
     static func openCalendar(

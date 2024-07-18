@@ -5,7 +5,6 @@
 //  Created by Наталья Захарова on 08.07.2024.
 //
 
-
 struct AnalyticEventItem {
     let event: EventType
     let screen: EventScreen
@@ -70,7 +69,6 @@ extension AnalyticEventItem {
         case delete
     }
 
-    // MARK: - EventScreen
     enum EventScreen: String {
         case todoList
         case todoView

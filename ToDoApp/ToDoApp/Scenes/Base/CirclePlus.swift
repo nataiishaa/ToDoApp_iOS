@@ -26,9 +26,9 @@ final class FloatingButton: UIButton {
     }
 
     private func setupShadow() {
-        layer.shadowColor = UIColor.black.cgColor // Пример использования черного цвета для тени
+        layer.shadowColor = UIColor.black.cgColor 
         layer.shadowRadius = 5
         layer.shadowOffset = CGSize(width: 0, height: 8)
-        layer.shadowOpacity = 0.5 // Сделаем тень менее интенсивной
+        layer.shadowOpacity = 0.5
     }
 }

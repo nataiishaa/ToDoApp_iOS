@@ -7,7 +7,6 @@
 
 import FileCache
 
-// MARK: - TodoItemCache
 final class TodoItemCache: FileCache<TodoItem> {
 
     static let shared = TodoItemCache()

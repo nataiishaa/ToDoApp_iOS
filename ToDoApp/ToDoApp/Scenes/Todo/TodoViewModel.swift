@@ -8,7 +8,6 @@
 import SwiftUI
 import Combine
 
-// MARK: - TodoViewModel
 final class TodoViewModel: ObservableObject {
 
     @Published var text: String

@@ -8,8 +8,7 @@
 import CocoaLumberjack
 
 final class CustomLoggerFormatter: NSObject, DDLogFormatter {
-    private var dateTransformer: DateFormatter
-    
+    private var dateTransformer: DateFormatter    
     override init() {
         dateTransformer = DateFormatter()
         dateTransformer.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
