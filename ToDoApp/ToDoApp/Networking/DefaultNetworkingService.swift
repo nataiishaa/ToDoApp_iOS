@@ -7,12 +7,13 @@
 
 import Foundation
 
-final class DefaultNetworkingService: NetworkingService {
-    static let shared: NetworkingService = DefaultNetworkingService(token: "Gildor")
+final class DefaultNetworkingService: ObservableObject, NetworkingService {
+    //static let shared: NetworkingService = DefaultNetworkingService(token: "Gildor")
+    static let shared = DefaultNetworkingService(token: "Gildor")
     private let baseUrl = URL(string: "https://hive.mrdekk.ru/todo")!
     private let session: URLSession
     private let token: String
-
+    @Published var isLoading = false
     init(session: URLSession = .shared, token: String) {
         self.session = session
         self.token = token

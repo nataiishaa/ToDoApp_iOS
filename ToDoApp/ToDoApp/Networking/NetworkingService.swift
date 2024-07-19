@@ -14,5 +14,5 @@ protocol NetworkingService {
     func addTodoItem(_ item: TodoItem) async throws -> TodoItemResponse
     func updateTodoItem(_ item: TodoItem) async throws -> TodoItemResponse
     func deleteTodoItem(withId id: String) async throws -> TodoItemResponse
-    static var shared : NetworkingService { get }
+    //static var shared : NetworkingService { get }
 }

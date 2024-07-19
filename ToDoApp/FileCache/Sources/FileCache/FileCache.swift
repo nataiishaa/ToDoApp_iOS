@@ -41,7 +41,6 @@ open class FileCache<T: FileCachable>: ObservableObject {
         }
     }
 
-
     public func addItem(_ item: T) {
         DispatchQueue.main.async {
             self.items[item.id] = item
@@ -50,9 +49,11 @@ open class FileCache<T: FileCachable>: ObservableObject {
 
     @discardableResult
     public func removeItem(id: String) -> T? {
-        DispatchQueue.main.async {
-            self.items.removeValue(forKey: id)
-        } as! T
+        var removedItem: T?
+        DispatchQueue.main.sync {
+            removedItem = self.items.removeValue(forKey: id)
+        }
+        return removedItem
     }
 
     public func removeAllItems() {

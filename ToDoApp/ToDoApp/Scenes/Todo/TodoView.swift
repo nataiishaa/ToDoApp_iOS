@@ -85,9 +85,6 @@ struct TodoView: View {
             }
         }
         .interactiveDismissDisabled(viewModel.canItemBeSaved)
-        .onAppear {
-            viewModel.fetchTodos()  // Пример вызова метода при появлении представления
-        }
     }
 
     private func dismissIfNeeded() {
@@ -233,17 +230,3 @@ extension TodoView {
     }
 }
 
-#Preview {
-    TodoView(viewModel: TodoViewModel(
-        todoItem: TodoItem(
-            text: "Поле",
-            priority: .high,
-            deadline: .now,
-            isDone: false,
-            createdAt: .now,
-            color: nil,
-            categoryId: nil
-        ),
-        networkingService: DefaultNetworkingService(token: "Gildor")
-    ))
-}

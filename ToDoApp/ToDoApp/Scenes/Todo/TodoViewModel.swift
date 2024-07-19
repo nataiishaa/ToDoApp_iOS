@@ -106,6 +106,7 @@ final class TodoViewModel: ObservableObject {
 
     func saveItem() {
         isNetworkActivityIndicatorVisible = true
+        print("Начало сохранения элемента")
         Task {
             do {
                 let updatedItem = todoItem.copyWith(
@@ -116,18 +117,32 @@ final class TodoViewModel: ObservableObject {
                     color: category?.color,
                     categoryId: category?.id
                 )
-                try await retryHandler.retry {
-                    let response: TodoItemResponse = try await self.networkingService.updateTodoItem(updatedItem)
+                
+                print("Сохранение элемента: \(updatedItem)")
+                if isItemNew {
+                    let response: TodoItemResponse = try await retryHandler.retry {
+                        try await self.networkingService.addTodoItem(updatedItem)
+                    }
                     DispatchQueue.main.async {
+                        print("Новый элемент сохранен: \(response.element)")
+                        self.todoItemCache.addItemAndSaveJson(response.element)
+                        self.isNetworkActivityIndicatorVisible = false
+                    }
+                } else {
+                    let response: TodoItemResponse = try await retryHandler.retry {
+                        try await self.networkingService.updateTodoItem(updatedItem)
+                    }
+                    DispatchQueue.main.async {
+                        print("Элемент обновлен: \(response.element)")
                         self.todoItemCache.addItemAndSaveJson(response.element)
                         self.isNetworkActivityIndicatorVisible = false
                     }
                 }
             } catch {
+                print("Ошибка при сохранении элемента: \(error)")
                 DispatchQueue.main.async {
                     self.isNetworkActivityIndicatorVisible = false
                 }
-                // Обработайте ошибку
             }
         }
     }

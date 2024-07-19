@@ -97,8 +97,6 @@ extension TodoList {
         }
     }
 
-   
-
     private var floatingButton: some View {
         Button {
             viewModel.todoViewPresented.toggle()
@@ -134,7 +132,7 @@ extension TodoList {
                     AnalyticsService.todoListFilterShowCompleted(!viewModel.showCompleted)
                 } label: {
                     Label(
-                        viewModel.showCompleted ? "hide" : "Cкрыть выполненные",
+                        viewModel.showCompleted ? "Cкрыть выполненные" : "Cкрыть выполненные",
                         systemImage: viewModel.showCompleted ? "eye.slash" : "eye"
                     )
                 }
