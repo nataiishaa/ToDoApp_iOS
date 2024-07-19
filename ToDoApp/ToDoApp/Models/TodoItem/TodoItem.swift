@@ -5,11 +5,24 @@
 //  Created by Наталья Захарова on 15.06.2024.
 //
 
-import SwiftUI
+import Foundation
 import FileCache
+import SwiftUI
 
-struct TodoItem: StringIdentifiable {
+//protocol StringIdentifiable {
+//    var id: String { get }
+////    var text: String {get}
+////  
+////    var deadline: Date? { get }
+////    var isDone: Bool { get }
+////    var createdAt: Date { get }
+////    var modifiedAt: Date? { get }
+////    var color: String? { get }
+////    var categoryId: String? { get }
+//}
 
+struct TodoItem: Codable, Identifiable, StringIdentifiable {
+    static let empty = TodoItem(text: "")
     let id: String
     let text: String
     let priority: Priority
@@ -78,11 +91,7 @@ struct TodoItem: StringIdentifiable {
         )
     }
 
-}
-
-extension TodoItem {
-
-    enum Priority: String, CaseIterable, Identifiable, Comparable {
+    enum Priority: String, CaseIterable, Identifiable, Comparable, Codable {
         private static func minimum(_ lhs: Self, _ rhs: Self) -> Self {
             switch (lhs, rhs) {
             case (.low, _), (_, .low): .low
@@ -98,7 +107,9 @@ extension TodoItem {
         case low, medium, high
 
         var id: Self { self }
-
+        
+// TODO: var symbol: AnyView {
+    
         var symbol: AnyView {
             switch self {
             case .low: AnyView(Image(.priorityLow))
@@ -109,18 +120,16 @@ extension TodoItem {
 
     }
 
-    enum Keys: String {
+    enum Keys: String, CodingKey {
         case id, text, priority, deadline, color
         case categoryId = "category_id"
         case isDone = "is_done"
         case createdAt = "created_at"
         case modifiedAt = "modified_at"
     }
-
 }
 
 extension TodoItem: Equatable {
-
     static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.id == rhs.id &&
         lhs.text == rhs.text &&
@@ -131,23 +140,4 @@ extension TodoItem: Equatable {
         lhs.modifiedAt == rhs.modifiedAt &&
         lhs.categoryId == rhs.categoryId
     }
-
-}
-
-extension TodoItem {
-
-    static var empty: TodoItem {
-        TodoItem(
-            id: UUID().uuidString,
-            text: "",
-            priority: .medium,
-            deadline: nil,
-            isDone: false,
-            createdAt: .now,
-            modifiedAt: nil,
-            color: nil,
-            categoryId: nil
-        )
-    }
-
 }

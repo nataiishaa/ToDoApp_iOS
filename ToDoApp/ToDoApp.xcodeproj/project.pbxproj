@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		4B9A5EDD8B745A925417DA8F /* Pods_ToDoAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 097ADA104D380A8F41A2DF42 /* Pods_ToDoAppTests.framework */; };
 		9F21D4594A568A336A69B788 /* Pods_ToDoApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72AEB87E7E025A3B80AD2A4E /* Pods_ToDoApp.framework */; };
+		A234624E2C49AB74004AC54A /* NetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A234624D2C49AB74004AC54A /* NetworkingService.swift */; };
+		A23462502C49AB92004AC54A /* DefaultNetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A234624F2C49AB92004AC54A /* DefaultNetworkingService.swift */; };
+		A23462522C49ABBB004AC54A /* TodoModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23462512C49ABBB004AC54A /* TodoModels.swift */; };
+		A23462542C49ABD7004AC54A /* RetryHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23462532C49ABD7004AC54A /* RetryHandler.swift */; };
 		F351E0E32C2D642200CC5C07 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F351E0E22C2D642200CC5C07 /* Colors.xcassets */; };
 		F3525D5D2C3555C2001F8D61 /* CategoryUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D5C2C3555C2001F8D61 /* CategoryUIView.swift */; };
 		F3525D5F2C355656001F8D61 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D5E2C355656001F8D61 /* CategoryTableViewCell.swift */; };
@@ -86,6 +90,10 @@
 		72AEB87E7E025A3B80AD2A4E /* Pods_ToDoApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ToDoApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		913923D2637DD1CDAD74188F /* Pods-ToDoAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoAppTests.release.xcconfig"; path = "Target Support Files/Pods-ToDoAppTests/Pods-ToDoAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		99E452DD2BB5FB408E975EAE /* Pods-ToDoAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoAppTests.debug.xcconfig"; path = "Target Support Files/Pods-ToDoAppTests/Pods-ToDoAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A234624D2C49AB74004AC54A /* NetworkingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingService.swift; sourceTree = "<group>"; };
+		A234624F2C49AB92004AC54A /* DefaultNetworkingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultNetworkingService.swift; sourceTree = "<group>"; };
+		A23462512C49ABBB004AC54A /* TodoModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoModels.swift; sourceTree = "<group>"; };
+		A23462532C49ABD7004AC54A /* RetryHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetryHandler.swift; sourceTree = "<group>"; };
 		F351E0E22C2D642200CC5C07 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		F3525D5C2C3555C2001F8D61 /* CategoryUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryUIView.swift; sourceTree = "<group>"; };
 		F3525D5E2C355656001F8D61 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
@@ -184,6 +192,10 @@
 		A234624A2C499E92004AC54A /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				A234624D2C49AB74004AC54A /* NetworkingService.swift */,
+				A234624F2C49AB92004AC54A /* DefaultNetworkingService.swift */,
+				A23462512C49ABBB004AC54A /* TodoModels.swift */,
+				A23462532C49ABD7004AC54A /* RetryHandler.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -703,7 +715,9 @@
 				F3F3FAC82C2DE35400991A3A /* GroupedList.swift in Sources */,
 				F3525D9D2C3BEC42001F8D61 /* CustomLoggerFormatter.swift in Sources */,
 				F39BE0482C346B8600EC634B /* CirclePlus.swift in Sources */,
+				A234624E2C49AB74004AC54A /* NetworkingService.swift in Sources */,
 				F3525D952C36CDA5001F8D61 /* CategoryViewModel.swift in Sources */,
+				A23462522C49ABBB004AC54A /* TodoModels.swift in Sources */,
 				F3F3FAB72C2D821500991A3A /* TodoListViewModel.swift in Sources */,
 				F39BE0302C32DA9F00EC634B /* CalendarUIView.swift in Sources */,
 				F3F3FADE2C2F32B100991A3A /* ViewExtensions.swift in Sources */,
@@ -722,7 +736,9 @@
 				F3F3FACE2C2EBD0F00991A3A /* TodoViewModel.swift in Sources */,
 				F3525D7F2C3596AF001F8D61 /* PlainButton.swift in Sources */,
 				F3525D8B2C35BA4E001F8D61 /* TextFieldWithInset.swift in Sources */,
+				A23462542C49ABD7004AC54A /* RetryHandler.swift in Sources */,
 				F39BE03B2C32EFF900EC634B /* CalendarTableViewCell.swift in Sources */,
+				A23462502C49AB92004AC54A /* DefaultNetworkingService.swift in Sources */,
 				F3F3FACC2C2EB81A00991A3A /* TodoItem+CSV.swift in Sources */,
 				F3F3FAD02C2ED4E300991A3A /* DeleteSwipe.swift in Sources */,
 				F3F3FABF2C2DC5B300991A3A /* MarkAsDoneSwipe.swift in Sources */,

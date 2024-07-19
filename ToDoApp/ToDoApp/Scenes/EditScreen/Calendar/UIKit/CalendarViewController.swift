@@ -105,16 +105,17 @@ final class CalendarViewController: UIViewController {
 }
 
 extension CalendarViewController: CalendarUIViewDelegate {
-
+    
     func didTapButton(_ button: UIButton) {
         AnalyticsService.calendarTapAddNew()
-        let todoView = TodoView(
-            viewModel: TodoViewModel(todoItem: TodoItem.empty)
-        )
+        
+        let networkingService = DefaultNetworkingService(token: "Gildor")
+        let viewModel = TodoViewModel(todoItem: TodoItem.empty, networkingService: networkingService)
+
+        let todoView = TodoView(viewModel: viewModel)
         let vc = UIHostingController(rootView: todoView)
         present(vc, animated: true)
     }
-
 }
 
 extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {

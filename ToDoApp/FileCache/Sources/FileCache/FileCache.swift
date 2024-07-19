@@ -1,3 +1,4 @@
+import Foundation
 import SwiftUI
 
 public protocol StringIdentifiable: Identifiable where ID == String {}
@@ -15,9 +16,7 @@ public protocol FileCachableCsv {
 
 public typealias FileCachable = StringIdentifiable & FileCachableJson & FileCachableCsv
 
-// MARK: - FileCache
 open class FileCache<T: FileCachable>: ObservableObject {
-
     @Published public private(set) var items: [String: T] = [:]
     private let fileManager: FileManager = FileManager.default
     private let defaultFileName: String
@@ -35,31 +34,39 @@ open class FileCache<T: FileCachable>: ObservableObject {
         removeItem(id: id)
         try? saveJson()
     }
+    
+    public func replaceItems(with newItems: [String: T]) {
+        DispatchQueue.main.async {
+            self.items = newItems
+        }
+    }
 
     public func addItem(_ item: T) {
-        items[item.id] = item
+        DispatchQueue.main.async {
+            self.items[item.id] = item
+        }
     }
 
     @discardableResult
     public func removeItem(id: String) -> T? {
-        items.removeValue(forKey: id)
+        var removedItem: T?
+        DispatchQueue.main.sync {
+            removedItem = self.items.removeValue(forKey: id)
+        }
+        return removedItem
     }
 
     public func removeAllItems() {
-        items = [:]
+        DispatchQueue.main.async {
+            self.items = [:]
+        }
     }
 
     private func filePath(_ file: String) -> URL {
-        fileManager
-            .urls(for: .documentDirectory, in: .userDomainMask)[0]
-            .appending(path: file, directoryHint: .notDirectory)
+        fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(file)
     }
 
-}
-
-// MARK: - JSON serialization
-extension FileCache {
-
+    // MARK: - JSON serialization
     public func saveJson(to file: String? = nil) throws {
         let fileName = file ?? defaultFileName
         let jsonArray = items.values.map { $0.json }
@@ -71,23 +78,20 @@ extension FileCache {
         let fileName = file ?? defaultFileName
         let data = try Data(contentsOf: filePath(fileName))
         let json = try JSONSerialization.jsonObject(with: data)
-        guard let json = json as? [Any] else {
+        guard let jsonArray = json as? [Any] else {
             throw FileCacheError.parseError
         }
-        let itemsList = json.compactMap { T.parse(json: $0) }
-        items = itemsList.reduce(into: [:], { result, item in
-            result[item.id] = item
-        })
+        let itemsList = jsonArray.compactMap { T.parse(json: $0) }
+        DispatchQueue.main.async {
+            self.items = itemsList.reduce(into: [:]) { result, item in
+                result[item.id] = item
+            }
+        }
     }
 
-}
-
-// MARK: - CSV serialization
-extension FileCache {
-
+    // MARK: - CSV serialization
     public func saveCSV(to file: String) throws {
-        let csvString: String = "\(T.csvHeader.joined(separator: ","))\n"
-                                + items.values.map({ $0.csv }).joined(separator: "\n")
+        let csvString = "\(T.csvHeader.joined(separator: ","))\n" + items.values.map { $0.csv }.joined(separator: "\n")
         guard let csvData = csvString.data(using: .utf8) else {
             throw FileCacheError.encodingError
         }
@@ -98,25 +102,23 @@ extension FileCache {
         let content = try String(contentsOf: filePath(file), encoding: .utf8)
         let rows = content.split(separator: "\n").map { String($0) }.dropFirst()
         let itemsList = rows.compactMap { T.parse(csv: $0) }
-        items = itemsList.reduce(into: [:], { result, item in
-            result[item.id] = item
-        })
+        DispatchQueue.main.async {
+            self.items = itemsList.reduce(into: [:]) { result, item in
+                result[item.id] = item
+            }
+        }
     }
 
-}
-
-// MARK: - FileCacheError
-extension FileCache {
-
+    // MARK: - FileCacheError
     public enum FileCacheError: LocalizedError {
         case parseError, encodingError
 
         public var errorDescription: String? {
             switch self {
-            case .parseError: "Parsing failed"
-            case .encodingError: "String encoding error"
+            case .parseError: return "Parsing failed"
+            case .encodingError: return "String encoding error"
             }
         }
     }
-
 }
+

@@ -40,15 +40,13 @@ struct AnalyticEventItem {
 
 extension AnalyticEventItem {
 
-    // MARK: - EventType
     enum EventType: String {
         case open
         case close
         case click
         case swipe
     }
-
-    // MARK: - EventItem
+    
     enum EventItem: String {
         case showCompleted
         case hideCompleted

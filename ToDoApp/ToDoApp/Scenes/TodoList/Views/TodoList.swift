@@ -62,10 +62,14 @@ struct TodoList: View {
             .sheet(isPresented: $viewModel.todoViewPresented) {
                 TodoView(
                     viewModel: TodoViewModel(
-                        todoItem: viewModel.todoItemToOpen
+                        todoItem: viewModel.todoItemToOpen,
+                        todoItemCache: TodoItemCache.shared,
+                        categoryCache: CategoryCache.shared,
+                        networkingService: DefaultNetworkingService.shared  
                     )
                 )
             }
+
             .fullScreenCover(isPresented: $viewModel.calendarViewPresented) {
                 CalendarView()
                     .ignoresSafeArea()
@@ -92,8 +96,6 @@ extension TodoList {
                 .frame(width: 20, height: 20, alignment: .center)
         }
     }
-
-   
 
     private var floatingButton: some View {
         Button {
@@ -130,7 +132,7 @@ extension TodoList {
                     AnalyticsService.todoListFilterShowCompleted(!viewModel.showCompleted)
                 } label: {
                     Label(
-                        viewModel.showCompleted ? "hide" : "Cкрыть выполненные",
+                        viewModel.showCompleted ? "Cкрыть выполненные" : "Cкрыть выполненные",
                         systemImage: viewModel.showCompleted ? "eye.slash" : "eye"
                     )
                 }
