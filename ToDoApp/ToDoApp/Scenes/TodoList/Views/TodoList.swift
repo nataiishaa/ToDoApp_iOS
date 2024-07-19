@@ -62,10 +62,14 @@ struct TodoList: View {
             .sheet(isPresented: $viewModel.todoViewPresented) {
                 TodoView(
                     viewModel: TodoViewModel(
-                        todoItem: viewModel.todoItemToOpen
+                        todoItem: viewModel.todoItemToOpen,
+                        todoItemCache: TodoItemCache.shared,
+                        categoryCache: CategoryCache.shared,
+                        networkingService: DefaultNetworkingService.shared  
                     )
                 )
             }
+
             .fullScreenCover(isPresented: $viewModel.calendarViewPresented) {
                 CalendarView()
                     .ignoresSafeArea()

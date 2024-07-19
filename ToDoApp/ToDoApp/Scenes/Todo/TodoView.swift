@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-// MARK: - TodoView
 struct TodoView: View {
 
     @StateObject var viewModel: TodoViewModel
@@ -16,65 +15,79 @@ struct TodoView: View {
 
     var body: some View {
         NavigationStack {
-            List {
-                Group {
-                    Section {
-                        newEventTextView
-                    }
-                    Section {
-                        priorityCell
-                        categoryCell
-                        deadlineCell
-                        if viewModel.isDeadlineEnabled {
-                            datePickerCell
+            ZStack {
+                List {
+                    Group {
+                        Section {
+                            newEventTextView
+                        }
+                        Section {
+                            priorityCell
+                            categoryCell
+                            deadlineCell
+                            if viewModel.isDeadlineEnabled {
+                                datePickerCell
+                            }
+                        }
+                        Section {
+                            deleteButtonCell
                         }
                     }
-                    Section {
-                        deleteButtonCell
+                    .listRowBackground(Color.backgroundSecondary)
+                    .listRowSeparatorTint(.primarySeparator)
+                }
+                .groupedList()
+                .listSectionSpacing(16)
+                .navigationTitle("Дело")
+                .navigationBarTitleDisplayMode(.inline)
+                .confirmationDialog("", isPresented: $viewModel.isAlertShown) {
+                    confirmation
+                }
+                .sheet(isPresented: $viewModel.isCategoryViewShown) {
+                    CategoryView(category: $viewModel.category)
+                        .toolbar(.hidden, for: .navigationBar)
+                        .ignoresSafeArea()
+                }
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button {
+                            dismissIfNeeded()
+                            AnalyticsService.todoViewCancel()
+                        } label: {
+                            Text("Закрыть")
+                                .font(.todoBody)
+                                .foregroundStyle(.primaryBlue)
+                        }
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            viewModel.saveItem()
+                            AnalyticsService.todoViewSave()
+                            dismiss()
+                        } label: {
+                            Text("Сохранить")
+                                .font(.todoBody)
+                                .foregroundStyle(viewModel.canItemBeSaved ? .primaryBlue : .textTertiary)
+                                .bold()
+                        }
+                        .disabled(!viewModel.canItemBeSaved)
                     }
                 }
-                .listRowBackground(Color.backgroundSecondary)
-                .listRowSeparatorTint(.primarySeparator)
-            }
-            .groupedList()
-            .listSectionSpacing(16)
-            .navigationTitle("Дело")
-            .navigationBarTitleDisplayMode(.inline)
-            .confirmationDialog("", isPresented: $viewModel.isAlertShown) {
-                confirmation
-            }
-            .sheet(isPresented: $viewModel.isCategoryViewShown) {
-                CategoryView(category: $viewModel.category)
-                    .toolbar(.hidden, for: .navigationBar)
-                    .ignoresSafeArea()
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        dismissIfNeeded()
-                        AnalyticsService.todoViewCancel()
-                    } label: {
-                        Text("Закрыть")
-                            .font(.todoBody)
-                            .foregroundStyle(.primaryBlue)
-                    }
-                }
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        viewModel.saveItem()
-                        AnalyticsService.todoViewSave()
-                        dismiss()
-                    } label: {
-                        Text("Сохранить")
-                            .font(.todoBody)
-                            .foregroundStyle(viewModel.canItemBeSaved ? .primaryBlue : .textTertiary)
-                            .bold()
-                    }
-                    .disabled(!viewModel.canItemBeSaved)
+
+                if viewModel.isNetworkActivityIndicatorVisible {
+                    Color.black.opacity(0.4)
+                        .ignoresSafeArea()
+                    ProgressView("Loading...")
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(10)
                 }
             }
         }
         .interactiveDismissDisabled(viewModel.canItemBeSaved)
+        .onAppear {
+            viewModel.fetchTodos()  // Пример вызова метода при появлении представления
+        }
     }
 
     private func dismissIfNeeded() {
@@ -84,7 +97,6 @@ struct TodoView: View {
             dismiss()
         }
     }
-
 }
 
 // MARK: - UI Elements
@@ -219,22 +231,19 @@ extension TodoView {
         }
         .disabled(viewModel.isItemNew)
     }
-
 }
 
-// MARK: - Preview
 #Preview {
-    TodoView(
-        viewModel: TodoViewModel(
-            todoItem: TodoItem(
-                text: "Поле",
-                priority: .high,
-                deadline: .now,
-                isDone: false,
-                createdAt: .now,
-                color: nil,
-                categoryId: nil
-            )
-        )
-    )
+    TodoView(viewModel: TodoViewModel(
+        todoItem: TodoItem(
+            text: "Поле",
+            priority: .high,
+            deadline: .now,
+            isDone: false,
+            createdAt: .now,
+            color: nil,
+            categoryId: nil
+        ),
+        networkingService: DefaultNetworkingService(token: "Gildor")
+    ))
 }

@@ -5,7 +5,7 @@
 //  Created by Наталья Захарова on 03.07.2024.
 //
 
-import SwiftUI
+import Foundation
 import FileCache
 
 final class CategoryCache: FileCache<Category> {
@@ -39,13 +39,14 @@ final class CategoryCache: FileCache<Category> {
         super.init(defaultFileName: defaultFileName)
         addDefaultCategories()
     }
-    
+
     private func addDefaultCategories() {
         try? loadJson()
         if items.isEmpty {
-            defaultCategories.forEach { addItem($0) }
+            defaultCategories.forEach { category in
+                addItem(category)
+            }
             try? saveJson()
         }
     }
-
 }
