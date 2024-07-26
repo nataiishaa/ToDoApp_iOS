@@ -13,6 +13,9 @@
 		A23462502C49AB92004AC54A /* DefaultNetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A234624F2C49AB92004AC54A /* DefaultNetworkingService.swift */; };
 		A23462522C49ABBB004AC54A /* TodoModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23462512C49ABBB004AC54A /* TodoModels.swift */; };
 		A23462542C49ABD7004AC54A /* RetryHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23462532C49ABD7004AC54A /* RetryHandler.swift */; };
+		A2CD42242C4EA2AC00EDEF00 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2CD42232C4EA2AC00EDEF00 /* NetworkService.swift */; };
+		A2CD42262C4EB06100EDEF00 /* Worker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2CD42252C4EB06100EDEF00 /* Worker.swift */; };
+		A2CD42282C53C40000EDEF00 /* IntParse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2CD42272C53C40000EDEF00 /* IntParse.swift */; };
 		F351E0E32C2D642200CC5C07 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F351E0E22C2D642200CC5C07 /* Colors.xcassets */; };
 		F3525D5D2C3555C2001F8D61 /* CategoryUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D5C2C3555C2001F8D61 /* CategoryUIView.swift */; };
 		F3525D5F2C355656001F8D61 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D5E2C355656001F8D61 /* CategoryTableViewCell.swift */; };
@@ -94,6 +97,9 @@
 		A234624F2C49AB92004AC54A /* DefaultNetworkingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultNetworkingService.swift; sourceTree = "<group>"; };
 		A23462512C49ABBB004AC54A /* TodoModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoModels.swift; sourceTree = "<group>"; };
 		A23462532C49ABD7004AC54A /* RetryHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetryHandler.swift; sourceTree = "<group>"; };
+		A2CD42232C4EA2AC00EDEF00 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		A2CD42252C4EB06100EDEF00 /* Worker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Worker.swift; sourceTree = "<group>"; };
+		A2CD42272C53C40000EDEF00 /* IntParse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntParse.swift; sourceTree = "<group>"; };
 		F351E0E22C2D642200CC5C07 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		F3525D5C2C3555C2001F8D61 /* CategoryUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryUIView.swift; sourceTree = "<group>"; };
 		F3525D5E2C355656001F8D61 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
@@ -196,6 +202,8 @@
 				A234624F2C49AB92004AC54A /* DefaultNetworkingService.swift */,
 				A23462512C49ABBB004AC54A /* TodoModels.swift */,
 				A23462532C49ABD7004AC54A /* RetryHandler.swift */,
+				A2CD42232C4EA2AC00EDEF00 /* NetworkService.swift */,
+				A2CD42272C53C40000EDEF00 /* IntParse.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -303,6 +311,7 @@
 				F3F3FADF2C2F44B900991A3A /* TodoView.swift */,
 				F3525D732C3578DB001F8D61 /* TodoItemCache.swift */,
 				F3F3FACD2C2EBD0F00991A3A /* TodoViewModel.swift */,
+				A2CD42252C4EB06100EDEF00 /* Worker.swift */,
 			);
 			path = Todo;
 			sourceTree = "<group>";
@@ -719,6 +728,7 @@
 				F3525D952C36CDA5001F8D61 /* CategoryViewModel.swift in Sources */,
 				A23462522C49ABBB004AC54A /* TodoModels.swift in Sources */,
 				F3F3FAB72C2D821500991A3A /* TodoListViewModel.swift in Sources */,
+				A2CD42262C4EB06100EDEF00 /* Worker.swift in Sources */,
 				F39BE0302C32DA9F00EC634B /* CalendarUIView.swift in Sources */,
 				F3F3FADE2C2F32B100991A3A /* ViewExtensions.swift in Sources */,
 				F3F8E3A82C3C01ED00CB54D8 /* URLSessionExtensions.swift in Sources */,
@@ -738,6 +748,7 @@
 				F3525D8B2C35BA4E001F8D61 /* TextFieldWithInset.swift in Sources */,
 				A23462542C49ABD7004AC54A /* RetryHandler.swift in Sources */,
 				F39BE03B2C32EFF900EC634B /* CalendarTableViewCell.swift in Sources */,
+				A2CD42242C4EA2AC00EDEF00 /* NetworkService.swift in Sources */,
 				A23462502C49AB92004AC54A /* DefaultNetworkingService.swift in Sources */,
 				F3F3FACC2C2EB81A00991A3A /* TodoItem+CSV.swift in Sources */,
 				F3F3FAD02C2ED4E300991A3A /* DeleteSwipe.swift in Sources */,
@@ -761,6 +772,7 @@
 				F39BE03F2C32F15100EC634B /* CalendarViewModel.swift in Sources */,
 				F39BE0432C330DED00EC634B /* UIFontExtensions.swift in Sources */,
 				F3525D612C355858001F8D61 /* CategoryViewController.swift in Sources */,
+				A2CD42282C53C40000EDEF00 /* IntParse.swift in Sources */,
 				F3525D652C3565AF001F8D61 /* Category.swift in Sources */,
 				F3525D6E2C357385001F8D61 /* Category+CSV.swift in Sources */,
 				F3525D862C359E93001F8D61 /* NewCategoryViewModel.swift in Sources */,

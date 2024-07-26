@@ -36,10 +36,12 @@ final class DefaultNetworkingService: ObservableObject, NetworkingService {
 
     func fetchTodoList() async throws -> TodoListResponse {
         let request = createRequest(endpoint: "list", method: "GET")
-        let (data, _) = try await session.data(for: request)
+        let (data, response) = try await session.data(for: request)
+        guard !data.isEmpty else {
+            throw NSError(domain: "DataError", code: 100, userInfo: [NSLocalizedDescriptionKey: "Получен пустой ответ от сервера"])
+        }
         return try JSONDecoder().decode(TodoListResponse.self, from: data)
     }
-
     func updateTodoList(with list: [TodoItem], revision: Int) async throws -> TodoListResponse {
         let body = try JSONEncoder().encode(list)
         let request = createRequest(endpoint: "list", method: "PATCH", body: body, revision: revision)

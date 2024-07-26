@@ -26,7 +26,7 @@ final class CategoryViewController: UIViewController {
     )
 
     private lazy var closeButton = UIBarButtonItem(
-        title: String(localized: "close"),
+        title: String(localized: "закрыть"),
         style: .plain,
         target: self,
         action: #selector(closeButtonTapped)

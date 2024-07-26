@@ -27,17 +27,23 @@ struct TodoList: View {
                                 AnalyticsService.todoListTapEditEvent()
                             },
                             onRadioButtonTap: {
-                                viewModel.toggleDone(todoItem)
-                                AnalyticsService.todoListTapMarkAsCompleted(!todoItem.isDone)
+                                Task {
+                                    await viewModel.toggleDone(todoItem)
+                                    AnalyticsService.todoListTapMarkAsCompleted(!todoItem.isDone)
+                                }
                             }
                         )
                         .markableAsDone(isDone: todoItem.isDone) {
-                            viewModel.toggleDone(todoItem)
-                            AnalyticsService.todoListSwipeMarkAsCompleted(!todoItem.isDone)
+                            Task {
+                                await viewModel.toggleDone(todoItem)
+                                AnalyticsService.todoListSwipeMarkAsCompleted(!todoItem.isDone)
+                            }
                         }
                         .deletable {
-                            viewModel.delete(todoItem)
-                            AnalyticsService.todoListSwipeToDelete()
+                            Task {
+                                await viewModel.delete(todoItem)
+                                AnalyticsService.todoListSwipeToDelete()
+                            }
                         }
                         .withInfo {
                             viewModel.selectedTodoItem = todoItem
@@ -65,7 +71,7 @@ struct TodoList: View {
                         todoItem: viewModel.todoItemToOpen,
                         todoItemCache: TodoItemCache.shared,
                         categoryCache: CategoryCache.shared,
-                        networkingService: DefaultNetworkingService.shared  
+                        networkingService: DefaultNetworkingService.shared
                     )
                 )
             }
@@ -132,7 +138,7 @@ extension TodoList {
                     AnalyticsService.todoListFilterShowCompleted(!viewModel.showCompleted)
                 } label: {
                     Label(
-                        viewModel.showCompleted ? "Cкрыть выполненные" : "Cкрыть выполненные",
+                        viewModel.showCompleted ? "Cкрыть выполненные" : "Показать выполненные",
                         systemImage: viewModel.showCompleted ? "eye.slash" : "eye"
                     )
                 }
