@@ -20,9 +20,11 @@ open class FileCache<T: FileCachable>: ObservableObject {
     @Published public private(set) var items: [String: T] = [:]
     private let fileManager: FileManager = FileManager.default
     private let defaultFileName: String
+    private var container: ModelContainer?
 
     public init(defaultFileName: String) {
         self.defaultFileName = defaultFileName
+        self.container = try? ModelContainer(for: [TodoItem.self])
     }
 
     public func addItemAndSaveJson(_ item: T) {
@@ -109,6 +111,23 @@ open class FileCache<T: FileCachable>: ObservableObject {
         }
     }
 
+    // MARK: - SwiftData Methods
+    public func insert(_ todoItem: TodoItem) {
+        container?.insert(todoItem)
+    }
+    
+    public func fetch() -> [TodoItem] {
+        return container?.fetch(TodoItem.self) ?? []
+    }
+    
+    public func delete(_ todoItem: TodoItem) {
+        container?.delete(todoItem)
+    }
+    
+    public func update(_ todoItem: TodoItem) {
+        container?.update(todoItem)
+    }
+
     // MARK: - FileCacheError
     public enum FileCacheError: LocalizedError {
         case parseError, encodingError
@@ -119,6 +138,30 @@ open class FileCache<T: FileCachable>: ObservableObject {
             case .encodingError: return "String encoding error"
             }
         }
+    }
+}
+
+// SwiftData ModelContainer
+class ModelContainer {
+    private var items: [String: TodoItem] = [:]
+    
+    init(for models: [TodoItem.Type]) throws {
+    }
+    
+    func insert(_ item: TodoItem) {
+        items[item.id] = item
+    }
+    
+    func fetch(_ type: TodoItem.Type) -> [TodoItem] {
+        return Array(items.values)
+    }
+    
+    func delete(_ item: TodoItem) {
+        items.removeValue(forKey: item.id)
+    }
+    
+    func update(_ item: TodoItem) {
+        items[item.id] = item
     }
 }
 

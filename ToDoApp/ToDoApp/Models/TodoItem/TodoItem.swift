@@ -9,21 +9,10 @@ import Foundation
 import FileCache
 import SwiftUI
 
-//protocol StringIdentifiable {
-//    var id: String { get }
-////    var text: String {get}
-////  
-////    var deadline: Date? { get }
-////    var isDone: Bool { get }
-////    var createdAt: Date { get }
-////    var modifiedAt: Date? { get }
-////    var color: String? { get }
-////    var categoryId: String? { get }
-//}
 
-struct TodoItem: Codable, Identifiable, StringIdentifiable {
+public struct TodoItem: Codable, Identifiable, StringIdentifiable {
     static let empty = TodoItem(text: "")
-    let id: String
+    public let id: String
     let text: String
     let priority: Priority
     let deadline: Date?
@@ -130,7 +119,7 @@ struct TodoItem: Codable, Identifiable, StringIdentifiable {
 }
 
 extension TodoItem: Equatable {
-    static func == (lhs: Self, rhs: Self) -> Bool {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.id == rhs.id &&
         lhs.text == rhs.text &&
         lhs.priority == rhs.priority &&
