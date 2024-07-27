@@ -4,7 +4,6 @@
 //
 //  Created by Наталья Захарова on 27.06.2024.
 //
-
 import SwiftUI
 import Combine
 
@@ -31,14 +30,16 @@ final class TodoListViewModel: ObservableObject {
             updateTodoItemsList()
         }
     }
-    @Published private var todoItemCache: TodoItemCache
+    private var todoItemCache: TodoItemCache
 
     enum SortType {
         case priority, addition
         var descriptionOfNext: String {
             switch self {
-            case .priority: String(localized: "sort.byAddition")
-            case .addition: String(localized: "Сортировать по важности")
+            case .priority:
+                return String(localized: "sort.byAddition")
+            case .addition:
+                return String(localized: "Сортировать по важности")
             }
         }
     }
@@ -55,23 +56,52 @@ final class TodoListViewModel: ObservableObject {
     }
 
     private var cancellables = Set<AnyCancellable>()
+    private var worker: NetworkingService
 
-    init(todoItemCache: TodoItemCache = TodoItemCache.shared) {
+    init(todoItemCache: TodoItemCache = TodoItemCache.shared, worker: NetworkingService = ToDoWorker()) {
         self.todoItemCache = todoItemCache
-        try? self.todoItemCache.loadJson()
+        self.worker = worker
         setupBindings()
+        Task {
+            await loadToDoItems()
+        }
     }
 
-    func addItem(_ item: TodoItem) {
-        todoItemCache.addItemAndSaveJson(item)
+    func addItem(_ item: TodoItem) async {
+        do {
+            let response = try await worker.addTodoItem(item)
+            await MainActor.run {
+                print("Adding item to cache: \(response.item)")
+                self.todoItemCache.addItemAndSaveJson(response.item)
+            }
+        } catch {
+            print("Failed to add todo item: \(error)")
+        }
     }
 
-    func toggleDone(_ todoItem: TodoItem) {
-        todoItemCache.addItemAndSaveJson(todoItem.toggleDone(!todoItem.isDone))
+    func toggleDone(_ todoItem: TodoItem) async {
+        let toggledItem = todoItem.toggleDone(!todoItem.isDone)
+        do {
+            let response = try await worker.updateTodoItem(toggledItem)
+            await MainActor.run {
+                print("Updating item in cache: \(response.item)")
+                self.todoItemCache.addItemAndSaveJson(response.item)
+            }
+        } catch {
+            print("Failed to update todo item: \(error)")
+        }
     }
 
-    func delete(_ todoItem: TodoItem) {
-        todoItemCache.removeItemAndSaveJson(id: todoItem.id)
+    func delete(_ todoItem: TodoItem) async {
+        do {
+            let response = try await worker.deleteTodoItem(withId: todoItem.id)
+            await MainActor.run {
+                print("Removing item from cache: \(response.item.id)")
+                self.todoItemCache.removeItemAndSaveJson(id: response.item.id)
+            }
+        } catch {
+            print("Failed to delete todo item: \(error)")
+        }
     }
 
     func toggleShowCompleted() {
@@ -89,12 +119,14 @@ final class TodoListViewModel: ObservableObject {
 
     private func updateTodoItemsList() {
         todoItems = applyFilters(items: Array(todoItemCache.items.values))
+        print("Updated todoItems: \(todoItems)")
     }
 
     private func setupBindings() {
         todoItemCache.$items
             .sink { [weak self] newItems in
-                guard let self else { return }
+                guard let self = self else { return }
+                print("Updating todoItems with new cache data")
                 self.todoItems = self.applyFilters(items: Array(newItems.values))
             }
             .store(in: &cancellables)
@@ -118,6 +150,17 @@ final class TodoListViewModel: ObservableObject {
         }
         return result
     }
-    
 
+    private func loadToDoItems() async {
+        do {
+            let response = try await worker.fetchTodoList()
+            await MainActor.run {
+                print("Loading items from server: \(response.items)")
+                self.todoItems = response.items
+                self.todoItemCache.replaceItems(with: Dictionary(uniqueKeysWithValues: response.items.map { ($0.id, $0) }))
+            }
+        } catch {
+            print("Failed to fetch todo items: \(error)")
+        }
+    }
 }

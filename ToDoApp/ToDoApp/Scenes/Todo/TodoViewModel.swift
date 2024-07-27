@@ -90,8 +90,8 @@ final class TodoViewModel: ObservableObject {
                     try await networkingService.fetchTodoList()
                 }
                 DispatchQueue.main.async {
-                    let itemsDict: [String: TodoItem] = Dictionary(uniqueKeysWithValues: response.list.map { ($0.id, $0) })
-                    self.todoItemCache.replaceItems(with: itemsDict)  // Используем новый метод для замены элементов
+                    let itemsDict: [String: TodoItem] = Dictionary(uniqueKeysWithValues: response.items.map { ($0.id, $0) })
+                    self.todoItemCache.replaceItems(with: itemsDict)
                     self.isNetworkActivityIndicatorVisible = false
                 }
             } catch {
@@ -102,7 +102,6 @@ final class TodoViewModel: ObservableObject {
             }
         }
     }
-
 
     func saveItem() {
         isNetworkActivityIndicatorVisible = true
@@ -120,21 +119,22 @@ final class TodoViewModel: ObservableObject {
                 
                 print("Сохранение элемента: \(updatedItem)")
                 if isItemNew {
-                    let response: TodoItemResponse = try await retryHandler.retry {
+                    let response = try await retryHandler.retry {
                         try await self.networkingService.addTodoItem(updatedItem)
                     }
                     DispatchQueue.main.async {
-                        print("Новый элемент сохранен: \(response.element)")
-                        self.todoItemCache.addItemAndSaveJson(response.element)
+                        print("Новый элемент сохранен: \(response.item)")
+                        self.updateUI()
+                        self.todoItemCache.addItemAndSaveJson(response.item)
                         self.isNetworkActivityIndicatorVisible = false
                     }
                 } else {
-                    let response: TodoItemResponse = try await retryHandler.retry {
+                    let response = try await retryHandler.retry {
                         try await self.networkingService.updateTodoItem(updatedItem)
                     }
                     DispatchQueue.main.async {
-                        print("Элемент обновлен: \(response.element)")
-                        self.todoItemCache.addItemAndSaveJson(response.element)
+                        print("Элемент обновлен: \(response.item)")
+                        self.todoItemCache.addItemAndSaveJson(response.item)
                         self.isNetworkActivityIndicatorVisible = false
                     }
                 }
@@ -147,16 +147,20 @@ final class TodoViewModel: ObservableObject {
         }
     }
 
+    func updateUI() {
+        fetchTodos()
+    }
+
     func removeItem() {
         isNetworkActivityIndicatorVisible = true
         Task {
             do {
-                try await retryHandler.retry { [self] in
-                    let response: TodoItemResponse = try await networkingService.deleteTodoItem(withId: todoItem.id)
-                    DispatchQueue.main.async {
-                        self.todoItemCache.removeItemAndSaveJson(id: response.element.id)
-                        self.isNetworkActivityIndicatorVisible = false
-                    }
+                let response = try await retryHandler.retry {
+                    try await self.networkingService.deleteTodoItem(withId: self.todoItem.id)
+                }
+                DispatchQueue.main.async {
+                    self.todoItemCache.removeItemAndSaveJson(id: response.item.id)
+                    self.isNetworkActivityIndicatorVisible = false
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -172,3 +176,4 @@ final class TodoViewModel: ObservableObject {
         return Color(hex: hex)
     }
 }
+
